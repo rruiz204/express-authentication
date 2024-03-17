@@ -11,7 +11,7 @@ const create = async (payload: any) => {
     .setExpirationTime("1h")
     .sign(secret);
   return token;
-}
+};
 
 const verify = async (token: string) => {
   try {
@@ -20,7 +20,7 @@ const verify = async (token: string) => {
   } catch(error) {
     return null;
   }
-}
+};
 
 export const Tokens = {
   create, verify
