@@ -3,13 +3,13 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "dev": "bun --hot run index.ts",
-    "test": "bun test",
-    "coverage": "bun test --coverage"
+    "dev": "bunx cross-env DATABASE_URL='file:./auth-express.db' bun --hot run index.ts",
+    "test": "bunx cross-env DATABASE_URL='file:./auth-express-test.db' bun test"
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "@types/express": "^4.17.21"
+    "@types/express": "^4.17.21",
+    "@types/supertest": "^6.0.2"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
@@ -18,9 +18,11 @@
     "@prisma/client": "5.10.2",
     "@vinejs/vine": "^1.7.1",
     "body-parser": "^1.20.2",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",
     "express": "^4.18.3",
     "jose": "^5.2.3",
-    "prisma": "^5.10.2"
+    "prisma": "^5.10.2",
+    "supertest": "^6.3.4"
   }
 }
