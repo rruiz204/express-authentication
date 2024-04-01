@@ -1,4 +1,4 @@
-import { prisma } from "./database";
+import prisma from "./database";
 import { type IUser } from "../types/body";
 import { Encrypt } from "../utils/encrypt";
 
