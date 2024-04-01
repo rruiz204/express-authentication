@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "dev": "bunx cross-env DATABASE_URL='file:./auth-express.db' bun --hot run index.ts",
-    "test": "bunx cross-env DATABASE_URL='file:./auth-express-test.db' bun test"
+    "test": "bunx cross-env DATABASE_URL='file:./auth-express-test.db' bun test",
+    "coverage": "bunx cross-env DATABASE_URL='file:./auth-express-test.db' bun test --coverage"
   },
   "devDependencies": {
     "@types/bun": "latest",
@@ -15,6 +16,7 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@prisma/client": "5.10.2",
     "@vinejs/vine": "^1.7.1",
     "body-parser": "^1.20.2",
