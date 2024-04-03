@@ -1,16 +1,20 @@
-import { describe, test, expect, spyOn } from "bun:test";
-import request from "supertest";
+import { describe, test, expect, spyOn, jest, afterAll } from "bun:test";
 import { AuthService } from "../../services/AuthService";
-import { Tokens } from "../../utils/tokens";
 import UserFactory from "../../factories/UserFactory";
+import { Tokens } from "../../utils/tokens";
+import request from "supertest";
 import { app } from "../../..";
 
-describe("Auth Controller", () => {
-  const mockUser = UserFactory();
+describe("Auth Controller", async () => {
+  const mockUser = await UserFactory();
   const mockError = new Error("500 Error");
   const { username, email, password } = mockUser;
 
   spyOn(Tokens, "create").mockResolvedValue("mock token");
+
+  afterAll(() => {
+    jest.restoreAllMocks();
+  })
 
   test("Register - POST - 200", async () => {
     spyOn(AuthService, "createUser").mockResolvedValue(mockUser);
