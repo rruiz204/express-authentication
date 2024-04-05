@@ -6,3 +6,6 @@ export const postRouter = Router();
 postRouter.use(AuthMiddleware);
 
 postRouter.get("/all", PostController.all);
+postRouter.post("/create", PostController.create);
+postRouter.put("/update", PostController.update);
+postRouter.delete("/remove", PostController.remove);
