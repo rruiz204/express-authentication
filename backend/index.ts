@@ -1,14 +1,19 @@
-import express, { type Request, type Response } from "express";
+import express from "express";
+import bodyParser from "body-parser";
+import morgan from "morgan";
+import router from "./src/routers/router";
 import dotenv from "dotenv";
 dotenv.config();
 
-const app = express()
-const port = process.env.PORT || 3000;
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-app.get("/test", (req: Request, res: Response) => {
-  res.status(200).send("Hello World! 123 456");
-});
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-app.listen(port, () => {
-  console.log(`Server is listening at http://localhost:${port}`);
+app.use(morgan("dev"));
+app.use("/api", router);
+
+app.listen(PORT, () => {
+  console.log(`Server is listening at http://localhost:${PORT}`);
 });
