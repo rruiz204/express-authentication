@@ -1,24 +1,23 @@
-import { type IUser } from "../types/body";
-import { PrismaClient } from "@prisma/client/extension";
-import { Encrypt } from "../utils/encrypt";
+import { PrismaClient } from "@prisma/client";
+import { type IUserBody } from "../types/bodies";
+import Encrypt from "../utils/encrypt";
 
-const findUser = async(email: string, prisma: PrismaClient) => {
-  const user = await prisma.user.findUnique({where: { email }});
+const findUser = async (email: string, client: PrismaClient) => {
+  const user = await client.user.findUnique({ where: { email } });
   return user;
-};
+}
 
-const createUser = async (body: IUser, prisma: PrismaClient) => {
-  const hash = await Encrypt.hash(body.password as string);
-  const user = await prisma.user.create({
+const createUser = async (body: IUserBody, client: PrismaClient) => {
+  const hash = await Encrypt.hash(body.password);
+  const user = await client.user.create({
     data: {
       username: body.username as string,
       email: body.email,
-      password: hash
+      password: hash,
     }
   });
   return user;
-};
+}
 
-export const AuthRepository = {
-  createUser, findUser
-};
+const AuthRepository = { findUser, createUser };
+export default AuthRepository;

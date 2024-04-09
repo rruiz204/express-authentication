@@ -6,6 +6,5 @@ const authSchema = vine.object({
   password: vine.string().minLength(8)
 });
 
-export const Schemas = {
-  authSchema
-};
+const Schemas = { authSchema };
+export default Schemas;

@@ -11,17 +11,16 @@ const create = async (payload: any) => {
     .setExpirationTime("1h")
     .sign(secret);
   return token;
-};
+}
 
 const verify = async (token: string) => {
   try {
     const { payload } = await jwtVerify(token, secret);
     return payload;
-  } catch(error) {
+  } catch (errot: any) {
     return null;
   }
-};
+}
 
-export const Tokens = {
-  create, verify
-};
+const Tokens = { create, verify };
+export default Tokens;

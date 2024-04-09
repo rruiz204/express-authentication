@@ -1,11 +1,14 @@
+import bcrypt from "bcrypt";
+
 const hash = async (password: string) => {
-  return await Bun.password.hash(password, {algorithm: "bcrypt", cost: 4});
-};
+  const hashed = await bcrypt.hash(password, 4);
+  return hashed
+}
 
 const verify = async (password: string, hash: string) => {
-  return await Bun.password.verify(password, hash);
-};
+  const verified = await bcrypt.compare(password, hash);
+  return verified;
+}
 
-export const Encrypt = {
-  hash, verify
-};
+const Encrypt = { hash, verify }
+export default Encrypt;
