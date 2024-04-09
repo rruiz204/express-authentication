@@ -1,5 +1,5 @@
 import { type Request, type Response, type NextFunction } from "express";
-import { Tokens } from "../utils/tokens";
+import Tokens from "../utils/tokens";
 
 export const AuthMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   const { authorization } = req.headers;

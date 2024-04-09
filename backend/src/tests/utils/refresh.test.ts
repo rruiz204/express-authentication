@@ -1,4 +1,4 @@
-import { describe, test, expect, afterEach } from "vitest";
+import { describe, test, expect } from "vitest";
 import AuthRepository from "../../repositories/AuthRepository";
 import UserFactory from "../../factories/UserFactory";
 import RefreshDatabase from "../../utils/refresh";

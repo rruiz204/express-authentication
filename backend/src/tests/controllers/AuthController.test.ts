@@ -32,4 +32,20 @@ describe("Auth Controller", async () => {
     expect(response.body.error).toEqual(mockError.message);
     expect(response.status).toEqual(500);
   })
+
+  test("Login - POST - 200", async () => {
+    vi.spyOn(AuthService, "loginUser").mockResolvedValue(mockUser);
+    const response = await request(app).post("/api/auth/login").send({ email, password });
+
+    expect(response.body.jwt).toEqual("mock token");
+    expect(response.status).toEqual(200);
+  })
+
+  test("Login - POST - 500", async () => {
+    vi.spyOn(AuthService, "loginUser").mockImplementation(() => {throw mockError});
+    const response = await request(app).post("/api/auth/login").send({ email, password });
+
+    expect(response.body.error).toEqual(mockError.message);
+    expect(response.status).toEqual(500);
+  })
 })
