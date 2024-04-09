@@ -9,4 +9,7 @@ coverage
 
 # SQLite3
 auth-express.db
+auth-express.db-journal
+
 auth-express-test.db
+auth-express-test.db-journal
