@@ -1,6 +1,7 @@
 import { describe, test, expect, vi, afterAll } from "vitest";
 import UserFactory from "../../factories/UserFactory";
 import AuthService from "../../services/AuthService";
+import Tokens from "../../utils/tokens";
 import request from "supertest";
 import { app } from "../../..";
 
@@ -10,6 +11,8 @@ describe("Auth Controller", async () => {
   const mockError = new Error("HTTP 500")
   const { username, email, password } = mockUser;
 
+  vi.spyOn(Tokens, "create").mockResolvedValue("mock token");
+
   afterAll(() => {
     vi.clearAllMocks();
   })
@@ -18,7 +21,7 @@ describe("Auth Controller", async () => {
     vi.spyOn(AuthService, "createUser").mockResolvedValue(mockUser);    
     const response = await request(app).post("/api/auth/register").send({ username, email, password });
 
-    expect(response.body.id).toEqual(mockUser.id);
+    expect(response.body.jwt).toEqual("mock token");
     expect(response.status).toEqual(200);
   })
 

@@ -6,8 +6,8 @@ import { MainClient } from "../repositories/database";
 import vine from "@vinejs/vine";
 
 const createUser = async (body: IUserBody) => {
-  const validtor = vine.compile(Schemas.authSchema);
-  const output = await validtor.validate(body);
+  const validator = vine.compile(Schemas.authSchema);
+  const output = await validator.validate(body);
 
   let user = await AuthRepository.findUser(output.email, MainClient);
   if (user) throw Error("The user already exists");
@@ -16,5 +16,18 @@ const createUser = async (body: IUserBody) => {
   return user;
 }
 
-const AuthService = { createUser };
+const loginUser = async (body: IUserBody) => {
+  const validator = vine.compile(Schemas.authSchema);
+  const output = await validator.validate(body);
+
+  let user = await AuthRepository.findUser(output.email, MainClient);
+  if (!user) throw new Error("The user does not exist");
+
+  const verified = await Encrypt.verify(output.password, user.password);
+  if (!verified) throw new Error("Invalid credentials");
+
+  return user;
+}
+
+const AuthService = { createUser, loginUser };
 export default AuthService;
