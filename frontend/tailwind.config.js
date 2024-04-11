@@ -2,8 +2,11 @@
 export default {
   content: ["./index.html", "./src/**/*.vue"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        "poppins": ["Poppins", "sans-serif"]
+      }
+    },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
 }
-
