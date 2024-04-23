@@ -3,6 +3,16 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: "Poppins";
+  font-family: "Poppins-Semi";
   src: url("/fonts/Poppins-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Poppins-Regular";
+  src: url("/fonts/Poppins-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Poppins-Light";
+  src: url("/fonts/Poppins-Light.ttf") format("truetype");
 }
