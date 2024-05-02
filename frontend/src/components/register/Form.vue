@@ -1,0 +1,41 @@
+<template>
+  <form class="font-semibold flex flex-col gap-3">
+    <div class="h-24 md:h-20">
+      <input type="text" placeholder="Username" v-model="username"
+        class="w-full p-3 bg-white outline-none rounded-lg">
+      <p class="text-red-600">{{ errors.username }}</p>
+    </div>
+
+    <div class="h-24 md:h-20">
+      <input type="email" placeholder="Email" v-model="email" class="w-full p-3 bg-white outline-none rounded-lg">
+      <p class="text-red-600">{{ errors.email }}</p>
+    </div>
+
+    <div class="h-24 md:h-20">
+      <input type="password" placeholder="Password" v-model="password"
+        class="w-full p-3 bg-white outline-none rounded-lg">
+      <p class="text-red-600">{{ errors.password }}</p>
+    </div>
+    <Button text="Register" size="w-full"></Button>
+    <p class="text-red-600">errors</p>
+  </form>
+</template>
+
+<script setup lang="ts">
+import Button from "../shared/Button.vue";
+import { useForm } from "vee-validate";
+import { object, string } from "yup";
+
+const { errors, defineField } = useForm({
+  validationSchema: object({
+    username: string().required().min(6),
+    email: string().required().email(),
+    password: string().required().min(8),
+  }),
+  initialValues: { username: "", email: "", password: "" }
+});
+
+const [username] = defineField("username");
+const [email] = defineField("email");
+const [password] = defineField("password");
+</script>
