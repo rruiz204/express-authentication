@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(morgan("dev"));
-app.use("/api", router);
+app.use("/api", router); 
 
 app.listen(PORT, () => {
   console.log(`Server is listening at http://localhost:${PORT}`);

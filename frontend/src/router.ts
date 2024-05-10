@@ -3,6 +3,7 @@ import Landing from "./views/Landing.vue";
 import Login from "./views/Login.vue";
 import Register from "./views/Register.vue";
 import AuthGuard from "./guards/AuthGuard";
+import Testing from "./views/Testing.vue";
 
 const routes = [
   {
@@ -16,6 +17,10 @@ const routes = [
   {
     path: "/register", component: Register,
     name: "Register Page", beforeEnter: [AuthGuard]
+  },
+  {
+    path: "/testing", component: Testing,
+    name: "Testing Page",
   }
 ]
 

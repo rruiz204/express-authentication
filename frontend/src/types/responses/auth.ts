@@ -1,5 +1,5 @@
 export interface IRegisterResponse {
-  message: string;
+  message?: string;
   jwt?: string;
   error?: string;
 }

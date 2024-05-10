@@ -16,7 +16,6 @@
 </template>
 
 <script setup lang="ts">
-import Button from "../shared/Button.vue";
 import { useForm } from "vee-validate";
 import { object, string } from "yup";
 

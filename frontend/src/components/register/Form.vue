@@ -1,8 +1,7 @@
 <template>
-  <form class="font-semibold flex flex-col gap-3">
+  <form class="font-semibold flex flex-col gap-3" @submit="submit">
     <div class="h-24 md:h-20">
-      <input type="text" placeholder="Username" v-model="username"
-        class="w-full p-3 bg-white outline-none rounded-lg">
+      <input type="text" placeholder="Username" v-model="username" class="w-full p-3 bg-white outline-none rounded-lg">
       <p class="text-red-600">{{ errors.username }}</p>
     </div>
 
@@ -16,17 +15,24 @@
         class="w-full p-3 bg-white outline-none rounded-lg">
       <p class="text-red-600">{{ errors.password }}</p>
     </div>
-    <Button text="Register" size="w-full"></Button>
-    <p class="text-red-600">errors</p>
+    <button class="border-2 rounded-lg hover:opacity-50 duration-200 w-full py-2">
+      Register
+    </button>
+    <p class="text-red-600">{{ response?.error }}</p>
   </form>
 </template>
 
 <script setup lang="ts">
-import Button from "../shared/Button.vue";
+import { IRegisterResponse } from "../../types/responses/auth";
+import { IRegisterBody } from "../../types/bodies/auth";
+import { defineEmits, defineProps } from "vue";
 import { useForm } from "vee-validate";
 import { object, string } from "yup";
 
-const { errors, defineField } = useForm({
+const emit = defineEmits(["register"]);
+defineProps<{response?: IRegisterResponse}>();
+
+const { errors, defineField, handleSubmit } = useForm({
   validationSchema: object({
     username: string().required().min(6),
     email: string().required().email(),
@@ -38,4 +44,8 @@ const { errors, defineField } = useForm({
 const [username] = defineField("username");
 const [email] = defineField("email");
 const [password] = defineField("password");
+
+const submit = handleSubmit((values: IRegisterBody) => {
+  emit("register", values);
+});
 </script>
