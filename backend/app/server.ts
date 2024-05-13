@@ -1,6 +1,8 @@
 import express from "express";
+import router from "./routers/router";
 import bodyParser from "body-parser";
 import morgan from "morgan";
+import * as fs from "fs";
 import cors from "cors";
 
 const app = express();
@@ -16,7 +18,11 @@ const options: cors.CorsOptions = { origin: origins };
 app.use(cors(options));
 
 // Logging
-app.use(morgan("dev"));
+const logStream = fs.createWriteStream("./express.log", { flags: "a" });
+app.use(morgan("[:date[web]] ':method/:status - :url - HTTP/:http-version'", { stream: logStream }));
+
+// Routing
+app.use("/api", router);
 
 // RUN
 app.listen(PORT, () => {
