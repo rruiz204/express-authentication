@@ -1,6 +1,6 @@
 import AuthRepository from "../repositories/AuthRepository";
 import { type IRegisterBody } from "../types/bodies";
-import { MainClient } from "../repositories/database";
+import { MainClient } from "../database/clients";
 import AuthSchema from "../validations/AuthSchema";
 import Validator from "../utils/validator";
 import Encrypt from "../utils/encrypt";
