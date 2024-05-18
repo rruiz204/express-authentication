@@ -13,7 +13,7 @@ const exception =
 
 console.log("Running migrations...");
 try {
-  if (!dbs.main && !dbs.test) throw new Error(exception);
+  if (!dbs.main || !dbs.test) throw new Error(exception);
 
   if (args.db == "all") {
     await runner(urls.main as string);
