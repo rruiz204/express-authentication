@@ -14,6 +14,7 @@
         </Input>
       </div>
       <Button text="Sign up" theme="dark"></Button>
+      <p class="text-red-600 text-center mt-4" v-if="error">{{ error }}</p>
     </form>
   </div>
 </template>
@@ -21,8 +22,14 @@
 <script setup lang="ts">
 import Input from "../shared/Input.vue";
 import Button from "../shared/Button.vue";
+import useFetch from "../../hooks/useFetch";
+import Options from "../../utils/options";
 import { useForm } from "vee-validate";
 import { object, string } from "yup";
+import { IAuthBody } from "../../types/bodies/auth";
+import { IAuthResponse } from "../../types/responses/auth";
+
+const { error, fetcher } = useFetch();
 
 const validation = object({
   username: string().required().min(6),
@@ -30,7 +37,7 @@ const validation = object({
   password: string().required().min(8),
 });
 
-const { defineField, errors, handleSubmit } = useForm({
+const { defineField, errors, handleSubmit } = useForm<IAuthBody>({
   validationSchema: validation
 });
 
@@ -39,7 +46,8 @@ const [email] = defineField("email");
 const [password] = defineField("password");
 
 const onSubmit = handleSubmit(async (values, { resetForm }) => {
-  console.log(values);
+  const options = Options.withBody<IAuthBody>("POST", values);
+  await fetcher<IAuthResponse>("/auth/register", options);
   resetForm();
 });
 </script>

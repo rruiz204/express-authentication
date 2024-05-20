@@ -5,5 +5,5 @@ interface IData {
 
 export interface IAuthResponse {
   data?: IData | undefined;
-  error: string | undefined;
+  error?: string | undefined;
 }
