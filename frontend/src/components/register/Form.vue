@@ -24,18 +24,12 @@ import Input from "../shared/Input.vue";
 import Button from "../shared/Button.vue";
 import useFetch from "../../hooks/useFetch";
 import Options from "../../utils/options";
+import validation from "./validation";
 import { useForm } from "vee-validate";
-import { object, string } from "yup";
 import { IAuthBody } from "../../types/bodies/auth";
 import { IAuthResponse } from "../../types/responses/auth";
 
 const { error, fetcher } = useFetch();
-
-const validation = object({
-  username: string().required().min(6),
-  email: string().required().email(),
-  password: string().required().min(8),
-});
 
 const { defineField, errors, handleSubmit } = useForm<IAuthBody>({
   validationSchema: validation
