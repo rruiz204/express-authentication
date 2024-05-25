@@ -1,6 +1,6 @@
 import { describe, test, expect, vi, afterAll } from "vitest";
 import AuthService from "../../services/AuthService";
-import AuthRepository from "../../repositories/AuthRepository";
+import UserRepository from "../../repositories/UserRepository";
 import UserFactory from "../../database/factories/UserFactory";
 
 describe("Auth Service", async () => {
@@ -11,8 +11,8 @@ describe("Auth Service", async () => {
   });
 
   test("Create User Success Case", async () => {
-    vi.spyOn(AuthRepository, "findUser").mockResolvedValue(null);
-    vi.spyOn(AuthRepository, "createUser").mockResolvedValue(user);
+    vi.spyOn(UserRepository, "findUser").mockResolvedValue(null);
+    vi.spyOn(UserRepository, "createUser").mockResolvedValue(user);
 
     try { 
       const user2 = await AuthService.createUser({ ...user });
@@ -21,7 +21,7 @@ describe("Auth Service", async () => {
   });
 
   test("Create User 'user already exists' Case", async () => {
-    vi.spyOn(AuthRepository, "findUser").mockResolvedValue(user);
+    vi.spyOn(UserRepository, "findUser").mockResolvedValue(user);
 
     try {
       await AuthService.createUser({ ...user });

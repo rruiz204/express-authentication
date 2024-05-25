@@ -20,5 +20,5 @@ const findUser = async (email: string, client: PrismaClient) => {
   return user;
 };
 
-const AuthRepository = { createUser, findUser };
-export default AuthRepository;
+const UserRepository = { createUser, findUser };
+export default UserRepository;
