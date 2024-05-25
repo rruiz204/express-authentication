@@ -11,8 +11,7 @@ const createUser = async (body: IRegisterBody) => {
   let user = await AuthRepository.findUser(output.email, MainClient);
   if (user) throw new Error("The user already exists");
 
-  user = await AuthRepository.createUser(output, MainClient);
-  return user;
+  return await AuthRepository.createUser(output, MainClient);
 };
 
 const AuthService = { createUser };
