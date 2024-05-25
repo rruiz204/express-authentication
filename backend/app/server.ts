@@ -6,7 +6,7 @@ import * as fs from "fs";
 import cors from "cors";
 
 const app = express();
-const PORT = Bun.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
 // Body Parser
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -28,3 +28,5 @@ app.use("/api", router);
 app.listen(PORT, () => {
   console.log(`Server is listening at http://localhost:${PORT}`);
 });
+
+export default app;
