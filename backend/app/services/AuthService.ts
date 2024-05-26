@@ -1,5 +1,5 @@
 import UserRepository from "../repositories/UserRepository";
-import { type IRegisterBody } from "../types/bodies";
+import { type IRegisterBody, type ILoginBody } from "../types/bodies";
 import { MainClient } from "../database/clients";
 import AuthSchema from "./validations/AuthSchema";
 import Validator from "../utils/validator";
@@ -14,5 +14,17 @@ const createUser = async (body: IRegisterBody) => {
   return await UserRepository.createUser(output, MainClient);
 };
 
-const AuthService = { createUser };
+const loginUser = async (body: ILoginBody) => {
+  const output = await Validator<ILoginBody>(AuthSchema.login, body);
+
+  let user = await UserRepository.findUser(output.email, MainClient);
+  if (!user) throw new Error("The user does not exist");
+
+  const verified = await Encrypt.verify(output.password, user.password);
+  if (!verified) throw new Error("Invalid Credentials");
+
+  return user;
+};
+
+const AuthService = { createUser, loginUser };
 export default AuthService;
