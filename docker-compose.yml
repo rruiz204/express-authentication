@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  express-auth-db:
+    image: postgres:14
+    container_name: express-auth-db
+    ports:
+      - "5432:5432"
+    volumes:
+      - express-auth-data:/var/lib/postgres/data
+    environment:
+      - POSTGRES_PASSWORD=admin123
+
+volumes:
+  express-auth-data:

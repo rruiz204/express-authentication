@@ -3,35 +3,39 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "dev": "bun --hot run index.ts",
-    "test": "bunx vitest --coverage"
+    "dev": "bun --hot run app/server.ts",
+    "test": "bunx vitest --coverage",
+    "prisma:studio": "bunx prisma studio --port 7777",
+    "prisma:migrate:all": "bun ./app/commands/migrate/index.ts --db=all",
+    "prisma:migrate:test": "bun ./app/commands/migrate/index.ts --db=test"
   },
   "devDependencies": {
-    "@types/bcrypt": "^5.0.2",
+    "@types/bcryptjs": "^2.4.6",
     "@types/bun": "latest",
-    "@types/dotenv": "^8.2.0",
+    "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/morgan": "^1.9.9",
-    "@types/node": "^20.12.5",
     "@types/supertest": "^6.0.2",
-    "@vitest/coverage-v8": "^1.4.0"
+    "@vitest/coverage-v8": "^1.6.0"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
   "dependencies": {
     "@faker-js/faker": "^8.4.1",
-    "@prisma/client": "^5.12.1",
+    "@prisma/client": "^5.13.0",
+    "@types/yargs": "^17.0.32",
     "@vinejs/vine": "^2.0.0",
-    "bcrypt": "^5.1.1",
-    "body-parser": "^1.20.2",
+    "@vitest/ui": "^1.6.0",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "cross-env": "^7.0.3",
-    "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "jose": "^5.2.4",
     "morgan": "^1.10.0",
-    "prisma": "^5.12.1",
-    "supertest": "^6.3.4",
-    "vitest": "^1.4.0"
+    "prisma": "^5.13.0",
+    "supertest": "^7.0.0",
+    "vitest": "^1.6.0",
+    "yargs": "^17.7.2"
   }
 }

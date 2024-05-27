@@ -3,16 +3,26 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: "Poppins-Semi";
-  src: url("/fonts/Poppins-SemiBold.ttf") format("truetype");
+  font-family: "Chivo-Bold";
+  src: url("/fonts/Chivo-Bold.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: "Poppins-Regular";
-  src: url("/fonts/Poppins-Regular.ttf") format("truetype");
+  font-family: "Chivo-Semi";
+  src: url("/fonts/Chivo-SemiBold.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: "Poppins-Light";
-  src: url("/fonts/Poppins-Light.ttf") format("truetype");
+  font-family: "Chivo-Medi";
+  src: url("/fonts/Chivo-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Chivo-Regular";
+  src: url("/fonts/Chivo-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Chivo-Light";
+  src: url("/fonts/Chivo-Light.ttf") format("truetype");
 }

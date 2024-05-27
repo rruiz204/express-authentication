@@ -4,11 +4,14 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        "poppins-semi": ["Poppins-Semi", "sans-serif"],
-        "poppins-regular": ["Poppins-Regular", "sans-serif"],
-        "poppins-light": ["Poppins-Light", "sans-serif"],
+        "chivo-bold": ["Chivo-Bold", "sans-serif"],
+        "chivo-semi": ["Chivo-Semi", "sans-serif"],
+        "chivo-medium": ["Chivo-Medi", "sans-serif"],
+        "chivo-regular": ["Chivo-Regular", "sans-serif"],
+        "chivo-light": ["Chivo-Light", "sans-serif"],
       }
     },
   },
-  plugins: [require("daisyui")],
+  plugins: [],
 }
+

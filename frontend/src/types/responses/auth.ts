@@ -1,12 +1,9 @@
-export interface IRegisterResponse {
-  message: string;
-  jwt?: string;
-  error?: string;
+export interface IAuthData {
+  jwt: string;
+  type: string;
 }
 
-export interface ILoginResponse {
-  message: string;
-  jwt?: string;
-  type?: string;
-  error?: string;
+export interface IAuthResponse {
+  data?: IAuthData | undefined;
+  error?: string | undefined;
 }

@@ -1,12 +1,16 @@
 <template>
-  <div class="hero w-screen min-h-screen" :style="{ backgroundImage: 'url(/images/background.jpg)' }">
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <div class="w-[300px] md:w-[450px] h-[525px] md:h-[500px] rounded-xl bg-neutral/75 py-10 md:px-10">
-        <p class="text-xl md:text-3xl font-poppins-semi text-center">Create a New Account</p>
-        <div class="mt-7 p-5">
-          <Form></Form>
-        </div>
+  <div class="w-screen h-screen flex justify-center items-center px-4">
+    <div class="w-full sm:w-[440px] p-5 flex flex-col gap-8">
+      <div class="text-center">
+        <h1 class="font-chivo-bold text-4xl text-2xl mb-2">Sign Up</h1>
+        <p class="font-chivo-regular text-gray-400">Create your account to get started. </p>
+      </div>
+      <div>
+        <Form></Form>
+      </div>
+      <div class="font-chivo-regular flex flex-col gap-3">
+        <Button text="Sign up with Google" theme="light" icon="/svgs/google.svg"></Button>
+        <Button text="Sign up with Github" theme="light" icon="/svgs/github.svg"></Button>
       </div>
     </div>
   </div>
@@ -14,4 +18,5 @@
 
 <script setup lang="ts">
 import Form from '../components/register/Form.vue';
+import Button from '../components/shared/Button.vue';
 </script>

@@ -1,10 +1,5 @@
-export interface IRegisterBody {
-  username: string;
-  email: string;
-  password: string;
-}
-
-export interface ILoginBody {
+export interface IAuthBody {
+  username?: string;
   email: string;
   password: string;
 }
