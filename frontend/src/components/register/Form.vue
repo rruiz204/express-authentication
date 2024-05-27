@@ -14,7 +14,7 @@
         </Input>
       </div>
       <Button text="Sign up" theme="dark"></Button>
-      <p class="text-red-600 text-center mt-4" v-if="error">{{ error }}</p>
+      <p class="text-red-600 text-center mt-4" v-if="store.error">{{ store.error }}</p>
     </form>
   </div>
 </template>
@@ -22,14 +22,12 @@
 <script setup lang="ts">
 import Input from "../shared/Input.vue";
 import Button from "../shared/Button.vue";
-import useFetch from "../../hooks/useFetch";
-import Options from "../../utils/options";
 import validation from "./validation";
+import useAuthStore from "../../stores/useAuthStore";
 import { useForm } from "vee-validate";
 import { IAuthBody } from "../../types/bodies/auth";
-import { IAuthResponse } from "../../types/responses/auth";
 
-const { error, fetcher } = useFetch();
+const store = useAuthStore();
 
 const { defineField, errors, handleSubmit } = useForm<IAuthBody>({
   validationSchema: validation
@@ -40,8 +38,7 @@ const [email] = defineField("email");
 const [password] = defineField("password");
 
 const onSubmit = handleSubmit(async (values, { resetForm }) => {
-  const options = Options.withBody<IAuthBody>("POST", values);
-  await fetcher<IAuthResponse>("/auth/register", options);
+  await store.auth("/auth/register", values);
   resetForm();
 });
 </script>

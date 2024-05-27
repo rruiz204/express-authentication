@@ -1,9 +1,9 @@
-interface IData {
+export interface IAuthData {
+  jwt: string;
   type: string;
-  token: string;
 }
 
 export interface IAuthResponse {
-  data?: IData | undefined;
+  data?: IAuthData | undefined;
   error?: string | undefined;
 }
