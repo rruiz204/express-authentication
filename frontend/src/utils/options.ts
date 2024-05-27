@@ -1,19 +1,30 @@
+import Tokens from "./tokens";
+
 type Method = "GET" | "POST" | "DELETE";
 
-const withoutBody = (method: Method): RequestInit => {
-  return {
-    method: method,
-    headers: { "Content-Type": "application/json" },
-  }
-};
+class Options <Body> {
+  private method: Method;
+  private headers: Record<string, string>;
+  private body: Body | undefined;
 
-const withBody = <Type> (method: Method, body: Type): RequestInit => {
-  return {
-    method: method,
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
+  constructor (method: Method, body?: Body) {
+    this.method = method;
+    this.headers = { "Content-Type": "application/json" };
+    this.body = body
+  }
+
+  setToken(): this {
+    this.headers["Authorization"] = Tokens.get() as string;
+    return this;
+  }
+
+  getOptions(): RequestInit {
+    return {
+      method: this.method,
+      headers: this.headers,
+      body: this.body ? JSON.stringify(this.body) : undefined
+    }
   }
 }
 
-const Options = { withoutBody, withBody };
 export default Options;
