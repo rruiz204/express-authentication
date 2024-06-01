@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div @click="$emit('click')">
     <button :class="styles" class="w-full rounded-lg p-3 duration-200 flex justify-center items-center gap-2">
       <div v-if="props.icon">
         <img :src="props.icon" width="18" height="18">
@@ -12,7 +12,9 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
+import { defineProps, defineEmits } from 'vue';
+
+defineEmits(["click"]);
 
 const props = defineProps({
   text: { type: String, required: true },
