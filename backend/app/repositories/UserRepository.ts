@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { type IRegisterBody } from "../types/bodies";
+import { type IRegisterBody } from "../types/bodies/auth";
 import Encrypt from "../utils/encrypt";
 
 const createUser = async (data: IRegisterBody, client: PrismaClient) => {

@@ -1,5 +1,5 @@
 import { describe, test, expect } from "vitest";
-import { type IRegisterBody } from "../../types/bodies";
+import { type IRegisterBody } from "../../types/bodies/auth";
 import AuthSchema from "../../services/validations/AuthSchema";
 import Validator from "../../utils/validator";
 

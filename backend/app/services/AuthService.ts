@@ -1,5 +1,5 @@
 import UserRepository from "../repositories/UserRepository";
-import { type IRegisterBody, type ILoginBody } from "../types/bodies";
+import { type IRegisterBody, type ILoginBody } from "../types/bodies/auth";
 import { MainClient } from "../database/clients";
 import AuthSchema from "./validations/AuthSchema";
 import Validator from "../utils/validator";
