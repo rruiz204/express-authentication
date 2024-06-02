@@ -6,8 +6,8 @@
     "dev": "bun --hot run app/server.ts",
     "test": "bunx vitest --coverage",
     "prisma:studio": "bunx prisma studio --port 7777",
-    "prisma:migrate:all": "bun ./app/commands/migrate/index.ts --db=all",
-    "prisma:migrate:test": "bun ./app/commands/migrate/index.ts --db=test"
+    "prisma:migrate:all": "bun ./app/commands/migrate.ts --db=all",
+    "prisma:migrate:test": "bun ./app/commands/migrate.ts --db=test"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",

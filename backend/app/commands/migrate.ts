@@ -1,6 +1,10 @@
 import yargs from "yargs";
-import runner from "./runner";
-import { dbs, urls } from "./variables";
+import database from "../config/database";
+import { $ } from "bun";
+
+const runner = async (url: string) => {
+  await $`cross-env PRISMA_DATABASE_URL=${url} bunx prisma migrate dev`.quiet();
+};
 
 const args = yargs(process.argv.slice(2)).options({
   db: { type: "string" },
@@ -13,14 +17,14 @@ const exception =
 
 console.log("Running migrations...");
 try {
-  if (!dbs.main || !dbs.test) throw new Error(exception);
+  if (!database.main.db_name || !database.test.db_name) throw new Error(exception);
 
   if (args.db == "all") {
-    await runner(urls.main as string);
+    await runner(database.main.db_url as string);
     console.log("Main Migrations \udb80\udd2c");
   }
 
-  await runner(urls.test as string);
+  await runner(database.test.db_url as string);
   console.log("Test Migrations \udb80\udd2c");
 
   console.log("All migrations are ready!");
