@@ -1,4 +1,4 @@
-import { type Environment } from "./config";
+import { type Environment } from "./app";
 
 interface ISocial {
   client_id: Environment;
@@ -6,12 +6,21 @@ interface ISocial {
   callback_url: Environment;
 }
 
-export const github: ISocial = {
+const github: ISocial = {
   client_id: process.env.GITHUB_CLIENT_ID,
   client_secret: process.env.GITHUB_CLIENT_SECRET,
   callback_url: process.env.GITHUB_CALLBACK_URL,
 };
 
-export const google = {
-
+const google: ISocial = {
+  client_id: process.env.GOOGLE_CLIENT_ID,
+  client_secret: process.env.GOOGLE_CLIENT_SECRET,
+  callback_url: process.env.GOOGLE_CALLBACK_URL,
 };
+
+const social = {
+  github: { ...github },
+  google: { ...google },
+};
+
+export default social;
