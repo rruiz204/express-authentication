@@ -3,7 +3,12 @@ import { configDefaults, defineConfig } from "vitest/config";
 export default defineConfig({
   test: {
     coverage: {
-      exclude: [...configDefaults.exclude, "app/commands/**"]
+      exclude: [
+        ...configDefaults.exclude,
+        "app/commands/**",
+        "app/config/**",
+        "app/database/**",
+      ]
     }
   }
 })
