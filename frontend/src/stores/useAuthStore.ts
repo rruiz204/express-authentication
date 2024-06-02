@@ -15,9 +15,9 @@ const useAuthStore = defineStore("authentication", () => {
 
     error.value = response.error;
     if (response.data) Tokens.save(response.data);
-  }
+  };
 
-  return { error, auth }
+  return { error, auth };
 });
 
 export default useAuthStore;
