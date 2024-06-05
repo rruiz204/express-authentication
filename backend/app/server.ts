@@ -1,5 +1,5 @@
 import express from "express";
-import router from "./routers/router";
+import router from "./http/routers/router";
 import bodyParser from "body-parser";
 import morgan from "morgan";
 import * as fs from "fs";
