@@ -1,20 +1,21 @@
-import Tokens from "./tokens";
+type Method = "GET" | "POST" | "PUT" | "DELETE"
 
-type Method = "GET" | "POST" | "DELETE";
-
-class Options <Body> {
-  private method: Method;
+class Options {
+  private method: Method = "GET";
   private headers: Record<string, string>;
-  private body: Body | undefined;
+  private body: any;
 
-  constructor (method: Method, body?: Body) {
-    this.method = method;
-    this.headers = { "Content-Type": "application/json" };
-    this.body = body
+  constructor(headers?: Record<string, string>) {
+    this.headers = { "Content-Type": "application/json", ...headers };
   }
 
-  setToken(): this {
-    this.headers["Authorization"] = Tokens.get() as string;
+  setMethod(method: Method): this {
+    this.method = method;
+    return this;
+  }
+
+  setBody(body: any): this {
+    this.body = JSON.stringify(body);
     return this;
   }
 
@@ -22,8 +23,8 @@ class Options <Body> {
     return {
       method: this.method,
       headers: this.headers,
-      body: this.body ? JSON.stringify(this.body) : undefined
-    }
+      body: this.body,
+    };
   }
 }
 

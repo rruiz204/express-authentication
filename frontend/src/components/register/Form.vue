@@ -23,13 +23,13 @@
 import Input from "../shared/Input.vue";
 import Button from "../shared/Button.vue";
 import validation from "./validation";
-import useAuthStore from "../../stores/useAuthStore";
+import useRegisterStore from "../../stores/useRegisterStore"
 import { useForm } from "vee-validate";
-import { IAuthBody } from "../../types/bodies/auth";
+import { IRegisterBody } from "../../types/bodies/auth";
 
-const store = useAuthStore();
+const store = useRegisterStore();
 
-const { defineField, errors, handleSubmit } = useForm<IAuthBody>({
+const { defineField, errors, handleSubmit } = useForm<IRegisterBody>({
   validationSchema: validation
 });
 
@@ -38,7 +38,7 @@ const [email] = defineField("email");
 const [password] = defineField("password");
 
 const onSubmit = handleSubmit(async (values, { resetForm }) => {
-  await store.auth("/auth/register", values);
+  await store.register(values);
   resetForm();
 });
 </script>

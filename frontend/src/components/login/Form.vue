@@ -21,13 +21,13 @@
 import Input from '../shared/Input.vue';
 import Button from '../shared/Button.vue';
 import validation from './validation';
-import useAuthStore from '../../stores/useAuthStore';
+import useLoginStore from '../../stores/useLoginStore';
 import { useForm } from "vee-validate";
-import { IAuthBody } from "../../types/bodies/auth";
+import { ILoginBody } from "../../types/bodies/auth";
 
-const store = useAuthStore();
+const store = useLoginStore();
 
-const { defineField, errors, handleSubmit } = useForm<IAuthBody>({
+const { defineField, errors, handleSubmit } = useForm<ILoginBody>({
   validationSchema: validation
 });
 
@@ -35,7 +35,7 @@ const [email] = defineField("email");
 const [password] = defineField("password");
 
 const onSubmit = handleSubmit(async (values, { resetForm }) => {
-  await store.auth("/auth/login", values);
+  await store.login(values);
   resetForm();
 });
 </script>

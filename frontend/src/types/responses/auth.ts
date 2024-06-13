@@ -1,4 +1,4 @@
-export interface IAuthData {
+interface IAuthData {
   jwt: string;
   type: string;
 }
