@@ -9,8 +9,8 @@
         <Form></Form>
       </div>
       <div class="font-chivo-regular flex flex-col gap-3">
-        <Button text="Login with Google" theme="light" icon="/svgs/google.svg"></Button>
-        <Button text="Login with Github" theme="light" icon="/svgs/github.svg"></Button>
+        <Button @click="Social.google" text="Login with Google" theme="light" icon="/svgs/google.svg"></Button>
+        <Button @click="Social.github" text="Login with Github" theme="light" icon="/svgs/github.svg"></Button>
       </div>
     </div>
   </div>
@@ -19,4 +19,5 @@
 <script setup lang="ts">
 import Form from '../components/login/Form.vue';
 import Button from '../components/shared/Button.vue';
+import Social from '../utils/Social';
 </script>

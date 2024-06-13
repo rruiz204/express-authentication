@@ -19,5 +19,5 @@
 <script setup lang="ts">
 import Form from '../components/register/Form.vue';
 import Button from '../components/shared/Button.vue';
-import Social from '../utils/social';
+import Social from '../utils/Social';
 </script>
