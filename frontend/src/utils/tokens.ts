@@ -1,7 +1,7 @@
-import { IAuthData } from "../types/responses/auth";
+import { IAuthResponse } from "../types/responses/auth";
 
-const save = (data: IAuthData) => {
-  const token: string = `${data.type} ${data.jwt}`;
+const save = (response: IAuthResponse) => {
+  const token: string = `${response.data?.type} ${response.data?.jwt}`;
   localStorage.setItem("api_token", token);
 };
 
