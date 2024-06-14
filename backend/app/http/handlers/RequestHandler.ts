@@ -14,9 +14,7 @@ function RequestHandler(logic: Logic) {
 
     await ExceptionHandler(res, async () => {
       const output = logic(req);
-
       const response: IResponse = (output instanceof Promise) ? await output : output;
-
       res.status(response.status ?? 200).json({ data: response.data });
     });
 
