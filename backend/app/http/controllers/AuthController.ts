@@ -1,6 +1,6 @@
 import { type Request, type Response } from "express";
 import RequestHandler from "../handlers/RequestHandler";
-import { AuthService } from "../../services";
+import AuthService from "../../services/AuthService";
 import Tokens from "../../utils/tokens";
 import social from "../../config/social";
 
@@ -16,11 +16,15 @@ const login = RequestHandler(async (req) => {
   return { data: { jwt: token, type: "Bearer" } };
 });
 
+const github = RequestHandler(async (req) => {
+  const code = req.query.code;
+
+  return { data: { } }
+});
 
 
 
-
-const github = async (req: Request, res: Response) => {
+const github2 = async (req: Request, res: Response) => {
   const code = req.query.code;
   console.log(code);
   
@@ -44,4 +48,4 @@ const google = async (req: Request, res: Response) => {
   console.log(code);
 };
 
-export default Object.freeze({ register, login, github, google });
+export default Object.freeze({ register, login, github2, google });
