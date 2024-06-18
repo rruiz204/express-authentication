@@ -1,9 +1,8 @@
 <template>
   <div>
-    <p>testing page</p>
+    <p>testing view</p>
   </div>
 </template>
 
-<script setup>
-
+<script setup lang="ts">
 </script>
