@@ -1,7 +1,8 @@
 import { describe, test, expect, vi, afterAll } from "vitest";
 import UserFactory from "../../database/factories/UserFactory";
-import AuthService from "../../services/AuthService";
+import UserService from "../../services/UserService";
 import Tokens from "../../utils/tokens";
+
 import request from "supertest";
 import app from "../../server";
 
@@ -18,7 +19,7 @@ describe("Auth Controller", async () => {
   });
 
   test("Register - POST - 200", async () => {
-    vi.spyOn(AuthService, "createUser").mockResolvedValue(user);
+    vi.spyOn(UserService, "create").mockResolvedValue(user);
     const response = await request(app).post("/api/auth/register").send({ username, email, password });
 
     expect(response.body.data.jwt).toEqual("mock token");
@@ -26,7 +27,7 @@ describe("Auth Controller", async () => {
   });
 
   test("Register - POST - 500", async () => {
-    vi.spyOn(AuthService, "createUser").mockImplementation(() => {throw error});
+    vi.spyOn(UserService, "create").mockImplementation(() => {throw error});
     const response = await request(app).post("/api/auth/register").send({ username, email, password });
 
     expect(response.body.error).toEqual(error.message);
@@ -34,7 +35,7 @@ describe("Auth Controller", async () => {
   });
 
   test("Login - POST - 200", async () => {
-    vi.spyOn(AuthService, "loginUser").mockResolvedValue(user);
+    vi.spyOn(UserService, "login").mockResolvedValue(user);
     const response = await request(app).post("/api/auth/login").send({ email, password });
 
     expect(response.body.data.jwt).toEqual("mock token");
@@ -42,7 +43,7 @@ describe("Auth Controller", async () => {
   });
 
   test("Login - POST - 500", async () => {
-    vi.spyOn(AuthService, "loginUser").mockImplementation(() => {throw error});
+    vi.spyOn(UserService, "login").mockImplementation(() => {throw error});
     const response = await request(app).post("/api/auth/login").send({ email, password });
 
     expect(response.body.error).toEqual(error.message);
