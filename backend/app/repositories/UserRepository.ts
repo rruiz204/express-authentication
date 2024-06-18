@@ -1,24 +1,21 @@
 import { PrismaClient } from "@prisma/client";
-import { type IRegisterBody } from "../types/bodies/auth";
+import { type CreateUserDTO } from "../dto/tasks/authentication/CreateUserDTO";
 import Encrypt from "../utils/encrypt";
 
-const createUser = async (data: IRegisterBody, client: PrismaClient) => {
-  const hash = await Encrypt.hash(data.password);
-  const user = await client.user.create({
-    data: {
+async function create(data: CreateUserDTO, client: PrismaClient) {
+  const password = await Encrypt.hash(data.email);
+  return await client.user.create({
+    data : {
       username: data.username,
       email: data.email,
-      password: hash,
+      password: password,
     }
   });
-  return user;
-};
+}
 
+async function findByEmail(email: string, client: PrismaClient) {
+  return await client.user.findUnique({ where: { email } });
+}
 
-const findUser = async (email: string, client: PrismaClient) => {
-  const user = await client.user.findUnique({ where: { email } });
-  return user;
-};
-
-const UserRepository = { createUser, findUser };
+const UserRepository = { create, findByEmail };
 export default UserRepository;

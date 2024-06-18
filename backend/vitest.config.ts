@@ -8,6 +8,8 @@ export default defineConfig({
         "app/commands/**",
         "app/config/**",
         "app/database/**",
+        "app/validations/**",
+        "app/dto/**",
       ]
     }
   }
