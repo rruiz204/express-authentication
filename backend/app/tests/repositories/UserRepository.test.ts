@@ -18,14 +18,14 @@ describe("User Repository", async () => {
   });
 
   test("Create User Method", async () => {
-    await UserRepository.createUser({ username, email, password }, TestClient);
+    await UserRepository.create({ username, email, password }, TestClient);
     const users = await TestClient.user.count();
     expect(users).toEqual(1);
   });
 
   test("Find User Method", async () => {
-    await UserRepository.createUser({ username, email, password }, TestClient);
-    const user2 = await UserRepository.findUser(email, TestClient);
+    await UserRepository.create({ username, email, password }, TestClient);
+    const user2 = await UserRepository.findByEmail(email, TestClient);
     expect(user2?.email).toEqual(user.email);
   });
 });
