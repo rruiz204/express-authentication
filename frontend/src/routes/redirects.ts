@@ -1,9 +1,9 @@
-interface IRedirect {
+interface IRedirectRoute {
   path: string;
   redirect: string;
 }
 
-const redirects: IRedirect[] = [
+const redirects: IRedirectRoute[] = [
   { path: "/", redirect: "/login" }
 ];
 
