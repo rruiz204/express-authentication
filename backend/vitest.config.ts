@@ -10,6 +10,7 @@ export default defineConfig({
         "app/database/**",
         "app/validations/**",
         "app/dto/**",
+        "app/http/handlers",
       ]
     }
   }
