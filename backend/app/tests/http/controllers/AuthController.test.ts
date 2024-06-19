@@ -1,10 +1,10 @@
 import { describe, test, expect, vi, afterAll } from "vitest";
-import UserFactory from "../../database/factories/UserFactory";
-import UserService from "../../services/UserService";
-import Tokens from "../../utils/tokens";
+import UserFactory from "../../../database/factories/UserFactory";
+import UserService from "../../../services/UserService";
+import Tokens from "../../../utils/tokens";
 
 import request from "supertest";
-import app from "../../server";
+import app from "../../../server";
 
 describe("Auth Controller", async () => {
   const user = await UserFactory();
