@@ -12,12 +12,13 @@
         <img class="m-1" :src="flag ? inputIcon : auxiliarIcon" width="18" height="18">
       </div>
     </div>
-    <p class="text-red-600">{{ error }}</p>
+    <p class="text-red-600">{{ Capitalize(error) }}</p>
   </div>
 </template>
 
 <script setup lang="ts">
 import { defineModel, defineProps, ref } from 'vue';
+import Capitalize from '../../utils/Capitalize';
 
 const field = defineModel("field");
 
