@@ -8,12 +8,12 @@
 }
 
 @font-face {
-  font-family: "Chivo-Semi";
+  font-family: "Chivo-Semibold";
   src: url("/fonts/Chivo-SemiBold.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: "Chivo-Medi";
+  font-family: "Chivo-Medium";
   src: url("/fonts/Chivo-Medium.ttf") format("truetype");
 }
 
