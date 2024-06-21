@@ -7,14 +7,13 @@ interface IResponse {
   data: any;
 }
 
-type Logic = (req: Request) => Promise<IResponse> | IResponse;
+type Logic = (req: Request) => Promise<IResponse>;
 
 function RequestHandler(logic: Logic) {
   return async (req: Request, res: Response) => {
 
     await ExceptionHandler(res, async () => {
-      const output = logic(req);
-      const response: IResponse = (output instanceof Promise) ? await output : output;
+      const response: IResponse = await logic(req);
       res.status(response.status ?? 200).json({ data: response.data });
     });
 
