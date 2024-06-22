@@ -23,11 +23,11 @@ import Button from '../shared/Button.vue';
 import validation from './validation';
 import useLoginStore from '../../stores/useLoginStore';
 import { useForm } from "vee-validate";
-import { ILoginBody } from "../../types/bodies/auth";
+import { LoginBodyDTO } from '../../dto/AuthenticationDTO';
 
 const store = useLoginStore();
 
-const { defineField, errors, handleSubmit } = useForm<ILoginBody>({
+const { defineField, errors, handleSubmit } = useForm<LoginBodyDTO>({
   validationSchema: validation
 });
 

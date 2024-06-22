@@ -25,11 +25,11 @@ import Button from "../shared/Button.vue";
 import validation from "./validation";
 import useRegisterStore from "../../stores/useRegisterStore"
 import { useForm } from "vee-validate";
-import { IRegisterBody } from "../../types/bodies/auth";
+import { RegisterBodyDTO } from "../../dto/AuthenticationDTO";
 
 const store = useRegisterStore();
 
-const { defineField, errors, handleSubmit } = useForm<IRegisterBody>({
+const { defineField, errors, handleSubmit } = useForm<RegisterBodyDTO>({
   validationSchema: validation
 });
 
