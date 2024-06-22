@@ -9,16 +9,24 @@
         <Form></Form>
       </div>
       <div class="font-chivo-regular flex flex-col gap-3">
-        <Button @click="GithubService.redirect" text="Login with Google" theme="light" icon="/svgs/google.svg"></Button>
-        <Button @click="GoogleService.redirect" text="Login with Github" theme="light" icon="/svgs/github.svg"></Button>
+        <Button @click="store.redirectToGoogle" text="Login with Google" theme="light" icon="/svgs/google.svg"></Button>
+        <Button @click="store.redirectToGithub" text="Login with Github" theme="light" icon="/svgs/github.svg"></Button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { watchEffect } from "vue";
+import { useRoute } from "vue-router";
 import Form from '../components/login/Form.vue';
 import Button from '../components/shared/Button.vue';
-import GoogleService from '../services/GoogleService';
-import GithubService from '../services/GithubService';
+import useSocialStore from '../stores/useSocialStore';
+
+const store = useSocialStore();
+const route = useRoute();
+
+watchEffect(() => {
+  if (route.query.code) store.login();
+});
 </script>
