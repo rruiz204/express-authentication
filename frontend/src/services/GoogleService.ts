@@ -1,25 +1,23 @@
 import { GOOGLE_CLIENT_ID } from "../env";
-import SocialService from "./interfaces/SocialService";
+import { SocialService } from "./interfaces/SocialService";
+import Options from "../utils/Options";
+import Fetcher from "../utils/Fetcher";
+import { AuthResponseDTO } from "../dto/AuthenticationDTO";
 
-class GoogleService extends SocialService {
+const login = async (code: string) => {
+  const options = new Options({}).setMethod("POST").setBody({ code }).getOptions();
+  return await Fetcher<AuthResponseDTO>("/auth/google", options);
+};
 
-  static login(): void {
-    
-  }
+const redirect = (): void => {
+  const scopes = "scope=https://www.googleapis.com/auth/userinfo.profile";
+  const responseType = "response_type=code";
+  const redirectUri = "redirect_uri=http://localhost:5173/login";
 
-  static redirect(): void {
-    const scopes = "scope=https://www.googleapis.com/auth/userinfo.profile";
-    const responseType = "response_type=code";
-    const redirectUri = "redirect_uri=http://localhost:5173/testing";
+  const params = `client_id=${GOOGLE_CLIENT_ID}&${scopes}&${responseType}&${redirectUri}`;
+  const url = "https://accounts.google.com/o/oauth2/v2/auth?" + params;
+  window.location.assign(url);
+};
 
-    const params = `client_id=${GOOGLE_CLIENT_ID}&${scopes}&${responseType}&${redirectUri}`;
-    const url = "https://accounts.google.com/o/oauth2/v2/auth?" + params;
-    window.location.assign(url);
-  }
-
-  static info(): void {
-    console.log("you are using google service");
-  }
-}
-
+const GoogleService: SocialService = { redirect, login };
 export default GoogleService;

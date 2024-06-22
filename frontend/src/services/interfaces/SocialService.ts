@@ -1,7 +1,6 @@
-abstract class SocialService {
-  static login(): void {};
-  static redirect(): void {};
-  static info(): void {};
-}
+import { AuthResponseDTO } from "../../dto/AuthenticationDTO";
 
-export default SocialService;
+export interface SocialService {
+  login(code: string): Promise<AuthResponseDTO>;
+  redirect(): void;
+}
