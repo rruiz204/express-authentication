@@ -26,7 +26,7 @@ import useSocialStore from '../stores/useSocialStore';
 const store = useSocialStore();
 const route = useRoute();
 
-watchEffect(() => {
-  if (route.query.code) store.login();
+watchEffect(async () => {
+  if (route.query.code) await store.login(route.query.code as string);
 });
 </script>

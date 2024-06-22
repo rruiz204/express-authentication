@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
-import SocialService from "../services/interfaces/SocialService";
+import { SocialService } from "../services/interfaces/SocialService";
 import GithubService from "../services/GithubService";
 import GoogleService from "../services/GoogleService";
+import { ref, Ref } from "vue";
 
 interface IServices {
   github: SocialService;
@@ -10,6 +11,9 @@ interface IServices {
 
 const useSocialStore = defineStore("social store", () => {
   const services = { github: GithubService, google: GoogleService };
+
+  const loading: Ref<boolean> = ref(false);
+  const error: Ref<string | undefined> = ref();
 
   function redirectToGithub() {
     localStorage.setItem("social_provider", "github");
@@ -21,9 +25,14 @@ const useSocialStore = defineStore("social store", () => {
     GoogleService.redirect();
   }
 
-  function login() {
+  async function login(code: string) {
+    loading.value = true;
     const service = services[localStorage.getItem("social_provider") as keyof IServices];
-    service.info();
+    const response = await service.login(code);
+
+    error.value = response.error;
+    console.log(response.data);
+    loading.value = false;
     //localStorage.removeItem("social_provider");
   }
 
