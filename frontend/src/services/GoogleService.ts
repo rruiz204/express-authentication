@@ -10,7 +10,7 @@ const login = async (code: string) => {
 };
 
 const redirect = (): void => {
-  const scopes = "scope=https://www.googleapis.com/auth/userinfo.profile";
+  const scopes = "scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email";
   const responseType = "response_type=code";
   const redirectUri = "redirect_uri=http://localhost:5173/login";
 
