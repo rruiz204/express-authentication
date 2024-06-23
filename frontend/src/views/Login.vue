@@ -9,8 +9,8 @@
         <Form></Form>
       </div>
       <div class="font-chivo-regular flex flex-col gap-3">
-        <Button @click="store.redirectToGoogle" text="Login with Google" theme="light" icon="/svgs/google.svg"></Button>
-        <Button @click="store.redirectToGithub" text="Login with Github" theme="light" icon="/svgs/github.svg"></Button>
+        <Button @click="store.redirect('google')" text="Login with Google" theme="light" icon="/svgs/google.svg"></Button>
+        <Button @click="store.redirect('github')" text="Login with Github" theme="light" icon="/svgs/github.svg"></Button>
       </div>
     </div>
   </div>
