@@ -10,7 +10,7 @@ const AuthRouter = Router();
 AuthRouter.post("/register", ValidationMiddleware(RegisterSchema), AuthController.register);
 AuthRouter.post("/login", ValidationMiddleware(LoginSchema), AuthController.login);
 
-AuthRouter.get("/github", AuthController.github);
-AuthRouter.get("/google", AuthController.google);
+AuthRouter.post("/github", AuthController.github);
+AuthRouter.post("/google", AuthController.google);
 
 export default AuthRouter;
