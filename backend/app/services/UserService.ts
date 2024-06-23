@@ -8,7 +8,7 @@ async function login(body: LoginUserDTO) {
   let user = await UserRepository.findByEmail(body.email, MainClient);
   if (!user) throw new Error("The user does not exist");
 
-  const verified = await Encrypt.verify(body.password, user.password);
+  const verified = await Encrypt.verify(body.password, user.password as string);
   if (!verified) throw new Error("Invalid Credentials");
   return user;
 };
