@@ -1,19 +1,37 @@
 import social from "../config/social";
+import UserRepository from "../repositories/UserRepository";
+import { MainClient } from "../database/clients";
 
-async function GithubService(code: string) {
+async function request(code: string) {
   const client_id = `client_id=${social.github.client_id}`;
   const client_secret = `client_secret=${social.github.client_secret}`;
-  const params = `?${client_id}&${client_secret}&code=${code}`;
+  const params = `${client_id}&${client_secret}&code=${code}`;
 
-  const { access_token } = await fetch(`https://github.com/login/oauth/access_token${params}`, {
+  const { access_token } = await fetch(`https://github.com/login/oauth/access_token?${params}`, {
     headers: { "Accept": "application/json" }
   }).then(async (res) => await res.json());
 
   const response = await fetch("https://api.github.com/user", {
     headers: { "Authorization": `Bearer ${access_token}` }
-  }).then(async (res) => await res.json());
+  });
+  return await response.json();
+}
 
-  console.log(response);
+async function login(code: string) {
+  const response = await request(code);
+
+  let user = await UserRepository.findByEmail(response.email, MainClient);
+  if (user?.google_id) throw Error("");
+
+  if (!user) {
+    return user = await UserRepository.createBySocial({
+      username: response.name,
+      email: response.email,
+      github_id: response.id,
+    }, MainClient);
+  }
+  return user;
 };
 
+const GithubService = { login };
 export default GithubService;
