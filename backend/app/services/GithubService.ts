@@ -20,14 +20,14 @@ async function request(code: string) {
 async function login(code: string) {
   const response = await request(code);
 
-  let user = await UserRepository.findByEmail(response.email, MainClient);
+  let user = await UserRepository.findByOther(response, MainClient);
   if (user?.google_id) throw Error("");
 
   if (!user) {
-    return user = await UserRepository.createBySocial({
+    return user = await UserRepository.create({
       username: response.name,
       email: response.email,
-      github_id: response.id,
+      github_id: (response.id as number).toString(),
     }, MainClient);
   }
   return user;
