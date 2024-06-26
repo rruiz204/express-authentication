@@ -1,11 +1,11 @@
 import UserRepository from "../repositories/UserRepository";
 import { MainClient } from "../database/clients";
 import Encrypt from "../utils/encrypt";
-import { type CreateUserDTO } from "../dto/tasks/authentication/CreateUserDTO";
-import { type LoginUserDTO } from "../dto/tasks/authentication/LoginUserDTO";
+import { type CreateUserDTO } from "../dto/auth/CreateUserDTO";
+import { type LoginUserDTO } from "../dto/auth/LoginUserDTO";
 
 async function login(body: LoginUserDTO) {
-  let user = await UserRepository.findByOther(body, MainClient);
+  let user = await UserRepository.findByNameOrEmail(body, MainClient);
   if (!user) throw new Error("The user does not exist");
 
   const verified = await Encrypt.verify(body.password, user.password as string);
@@ -14,7 +14,7 @@ async function login(body: LoginUserDTO) {
 };
 
 async function create(body: CreateUserDTO) {
-  let user = await UserRepository.findByOther(body, MainClient);
+  let user = await UserRepository.findByNameOrEmail(body, MainClient);
   if (user) throw new Error("The user already exists");
   return await UserRepository.create(body, MainClient);
 };

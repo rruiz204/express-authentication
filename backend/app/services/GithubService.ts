@@ -20,7 +20,7 @@ async function request(code: string) {
 async function login(code: string) {
   const response = await request(code);
 
-  let user = await UserRepository.findByOther(response, MainClient);
+  let user = await UserRepository.findByNameOrEmail(response, MainClient);
   if (user?.google_id) throw Error("");
 
   if (!user) {
