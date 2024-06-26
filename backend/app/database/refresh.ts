@@ -1,10 +1,10 @@
 import { TestClient } from "./clients";
-import EnumTables from "../types/tables";
+import { type Table } from "./tables";
 
-const RefreshDatabase = async (tables: EnumTables[]) => {
-  for (let index = 0; index != tables.length; index++) {
-    await TestClient[tables[index]].deleteMany({});
-  }
+const RefreshDatabase = async (tables: Table[]) => {
+  tables.forEach(async (table: Table) => {
+    await TestClient[table].deleteMany({});
+  });
 };
 
 export default RefreshDatabase;
