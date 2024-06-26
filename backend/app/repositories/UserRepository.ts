@@ -1,7 +1,8 @@
 import { PrismaClient } from "@prisma/client";
-import { type CreateUserDTO } from "../dto/tasks/authentication/CreateUserDTO";
-import { type FindUserByOtherDTO } from "../dto/tasks/user/FindUserByOtherDTO";
 import Encrypt from "../utils/encrypt";
+import { type CreateUserDTO } from "../dto/auth/CreateUserDTO";
+import { type FindByNameOrEmailDTO } from "../dto/user/FindByNameOrEmailDTO";
+import { type Table } from "../database/tables";
 
 async function create(data: CreateUserDTO, client: PrismaClient) {
   const password = data.password ? await Encrypt.hash(data.password) : null;
@@ -16,7 +17,7 @@ async function create(data: CreateUserDTO, client: PrismaClient) {
   });
 };
 
-async function findByOther(data: FindUserByOtherDTO, client: PrismaClient) {
+async function findByNameOrEmail(data: FindByNameOrEmailDTO, client: PrismaClient) {
   return await client.user.findFirst({
     where: {
       OR: [{email: data.email}, {username: data.username}]
@@ -24,5 +25,6 @@ async function findByOther(data: FindUserByOtherDTO, client: PrismaClient) {
   });
 };
 
-const UserRepository = { create, findByOther };
+const table: Table = "user";
+const UserRepository = { table, create, findByNameOrEmail };
 export default UserRepository;
