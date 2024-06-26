@@ -1,4 +1,4 @@
-export interface FindUserByOtherDTO {
+export interface FindByNameOrEmailDTO {
   username?: string;
   email?: string;
 }
