@@ -1,51 +1,29 @@
-import { type Request, type Response } from "express";
-import RequestHandler from "../handlers/RequestHandler";
+import RequestHandler from "./RequestHandler";
 import UserService from "../../services/UserService";
-import Tokens from "../../utils/tokens";
-import social from "../../config/social";
+import GithubService from "../../services/GithubService";
+import GoogleService from "../../services/GoogleService";
+import AuthUserDTO from "../../dto/auth/AuthUserDTO";
 
 const register = RequestHandler(async (req) => {
   const user = await UserService.create(req.body);
-  const token = await Tokens.create({ id: user.id });
-  return { data: { jwt: token, type: "Bearer" } };
+  return await AuthUserDTO(user.id);
 });
 
 const login = RequestHandler(async (req) => {
   const user = await UserService.login(req.body);
-  const token = await Tokens.create({ id: user.id });
-  return { data: { jwt: token, type: "Bearer" } };
+  return await AuthUserDTO(user.id);
 });
 
 const github = RequestHandler(async (req) => {
-  const code = req.query.code;
+  const user = await GithubService.login(req.body.code);
+  return await AuthUserDTO(user.id);
+});
 
-  return { data: { } }
+const google = RequestHandler(async (req) => {
+  const user = await GoogleService.login(req.body.code);
+  return await AuthUserDTO(user.id);
 });
 
 
-
-const github2 = async (req: Request, res: Response) => {
-  const code = req.query.code;
-  console.log(code);
-  
-  const params: string = `?client_id=${social.github.client_id}&client_secret=${social.github.client_secret}&code=${code}`;
-
-  const { access_token } = await fetch(`https://github.com/login/oauth/access_token${params}`, {
-    headers: { "Accept": "application/json" }
-  }).then(async (res) => await res.json());
-
-  console.log(access_token);
-  const response = await fetch("https://api.github.com/user", {
-    headers: { "Authorization": `Bearer ${access_token}` }
-  }).then(async (res) => await res.json());
-
-  console.log(response);
-  res.redirect("http://localhost:5173/login");
-};
-
-const google = async (req: Request, res: Response) => {
-  const code = req.query.code;
-  console.log(code);
-};
-
-export default Object.freeze({ register, login, github, google });
+const AuthController = { register, login, github, google };
+export default AuthController;
