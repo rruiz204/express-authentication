@@ -24,8 +24,8 @@ async function request(code: string) {
 async function login(code: string) {
   const response = await request(code);
 
-  let user = await UserRepository.findByNameOrEmail(response, MainClient);
-  if (user?.github_id) throw Error("");
+  let user = await UserRepository.find(response, MainClient);
+  if (user?.github_id) throw Error("You are registered with another platform, try Github.");
 
   if (!user) {
     return user = await UserRepository.create({
@@ -37,5 +37,5 @@ async function login(code: string) {
   return user;
 };
 
-const GoogleService = { login };
+const GoogleService = { login, request };
 export default GoogleService;
