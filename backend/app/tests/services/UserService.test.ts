@@ -3,27 +3,26 @@ import UserService from "../../services/UserService";
 import UserRepository from "../../repositories/UserRepository";
 import UserFactory from "../../database/factories/UserFactory";
 
-describe("User Service", async () => {
-  const user = await UserFactory();
+describe("user service", async () => {
+  const user = { ...await UserFactory({}), github_id: null, google_id: null };
   const { username, email, password } = user;
 
   afterAll(() => {
     vi.restoreAllMocks();
   });
 
-  test("Create User Success Case", async () => {
-    vi.spyOn(UserRepository, "findByEmail").mockResolvedValue(null);
+  test("create user seccessful case", async () => {
+    vi.spyOn(UserRepository, "find").mockResolvedValue(null);
     vi.spyOn(UserRepository, "create").mockResolvedValue(user);
 
-    try { 
+    try {
       const user2 = await UserService.create({ username, email, password });
       expect(user2.id).toEqual(user.id);
     } catch (error) { }
   });
 
-  test("Create User 'user already exists' Case", async () => {
-    vi.spyOn(UserRepository, "findByEmail").mockResolvedValue(user);
-
+  test("user already exists", async () => {
+    vi.spyOn(UserRepository, "find").mockResolvedValue(user);
     try {
       await UserService.create({ username, email, password });
     } catch (error) {
@@ -31,18 +30,16 @@ describe("User Service", async () => {
     }
   });
 
-  test("Login User Success Case", async () => {
-    vi.spyOn(UserRepository, "findByEmail").mockResolvedValue(user);
-
+  test("login user successful case", async () => {
+    vi.spyOn(UserRepository, "find").mockResolvedValue(user);
     try {
-      const user = await UserService.login({ email, password });
-      expect(user.id).toEqual(user.id);
+      const user2 = await UserService.login({ email, password });
+      expect(user2.id).toEqual(user.id);
     } catch (error) { }
   });
 
-  test("Login User 'user does not exist' Case", async () => {
-    vi.spyOn(UserRepository, "findByEmail").mockResolvedValue(null);
-
+  test("user does not exists", async () => {
+    vi.spyOn(UserRepository, "find").mockResolvedValue(null);
     try {
       await UserService.login({ email, password });
     } catch (error) {
@@ -50,9 +47,8 @@ describe("User Service", async () => {
     }
   });
 
-  test("Login User 'invalid credentials' Case", async () => {
-    vi.spyOn(UserRepository, "findByEmail").mockResolvedValue(user);
-    
+  test("invalid credentials", async () => {
+    vi.spyOn(UserRepository, "find").mockResolvedValue(user);
     try {
       await UserService.login({ email, password: "fake password" });
     } catch (error) {
