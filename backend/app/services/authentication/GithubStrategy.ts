@@ -1,6 +1,6 @@
-import social from "../config/social";
-import UserRepository from "../repositories/UserRepository";
-import { MainClient } from "../database/clients";
+import UserRepository from "../../repositories/UserRepository";
+import { MainClient } from "../../database/clients";
+import social from "../../config/social";
 
 async function request(code: string) {
   const client_id = `client_id=${social.github.client_id}`;
@@ -15,7 +15,7 @@ async function request(code: string) {
     headers: { "Authorization": `Bearer ${access_token}` }
   });
   return await response.json();
-}
+};
 
 async function login(code: string) {
   const response = await request(code);
@@ -33,5 +33,5 @@ async function login(code: string) {
   return user;
 };
 
-const GithubService = { login, request };
-export default GithubService;
+const GithubStrategy = { login, request };
+export default GithubStrategy;

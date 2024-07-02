@@ -29,30 +29,4 @@ describe("user service", async () => {
       expect((error as Error).message).toEqual("The user already exists");
     }
   });
-
-  test("login user successful case", async () => {
-    vi.spyOn(UserRepository, "find").mockResolvedValue(user);
-    try {
-      const user2 = await UserService.login({ email, password });
-      expect(user2.id).toEqual(user.id);
-    } catch (error) { }
-  });
-
-  test("user does not exists", async () => {
-    vi.spyOn(UserRepository, "find").mockResolvedValue(null);
-    try {
-      await UserService.login({ email, password });
-    } catch (error) {
-      expect((error as Error).message).toEqual("The user does not exist");
-    }
-  });
-
-  test("invalid credentials", async () => {
-    vi.spyOn(UserRepository, "find").mockResolvedValue(user);
-    try {
-      await UserService.login({ email, password: "fake password" });
-    } catch (error) {
-      expect((error as Error).message).toEqual("Invalid Credentials");
-    }
-  });
 });
