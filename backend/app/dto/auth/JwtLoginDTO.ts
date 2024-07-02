@@ -1,4 +1,4 @@
-export interface LoginUserDTO {
+export interface JwtLoginDTO {
   email: string;
   password: string;
 }
