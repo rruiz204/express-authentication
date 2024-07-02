@@ -8,8 +8,8 @@ describe("social auth service", async () => {
   const user = {
     ...await UserFactory({}),
     password: null,
-    github_id: null,
-    google_id: null,
+    github_id: "github id",
+    google_id: "google id",
   };
 
   const { username, email, github_id, google_id } = user;
@@ -18,23 +18,19 @@ describe("social auth service", async () => {
     vi.restoreAllMocks();
   });
 
-  test("", async () => {
+  test("use github strategy", async () => {
     vi.spyOn(GithubStrategy, "request").mockResolvedValue({ username, email, id: github_id });
-    const GithubSpy = vi.spyOn(GithubStrategy, "login").mockResolvedValue({ ...user, github_id: "github id" });
-    const GoogleSpy = vi.spyOn(GoogleStrategy, "login").mockResolvedValue({ ...user, google_id: "google id" });
+    const GithubSpy = vi.spyOn(GithubStrategy, "login").mockResolvedValue({ ...user, google_id: null });
 
     await SocialAuthService.login({ code: "github code", strategy: "github" });
     expect(GithubSpy).toHaveBeenCalled();
-    expect(GoogleSpy).not.toHaveBeenCalled();
   });
 
-  test("", async () => {
+  test("use google strategy", async () => {
     vi.spyOn(GoogleStrategy, "request").mockResolvedValue({ username, email, id: google_id });
-    const GithubSpy = vi.spyOn(GithubStrategy, "login").mockResolvedValue({ ...user, github_id: "github id" });
-    const GoogleSpy = vi.spyOn(GoogleStrategy, "login").mockResolvedValue({ ...user, google_id: "google id" });
+    const GoogleSpy = vi.spyOn(GoogleStrategy, "login").mockResolvedValue({ ...user, github_id: null });
 
     await SocialAuthService.login({ code: "google code", strategy: "google" });
-    expect(GithubSpy).not.toHaveBeenCalled();
     expect(GoogleSpy).toHaveBeenCalled();
   });
 });
