@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import Encrypt from "../../utils/encrypt";
-import { type CreateUserDTO } from "../../dto/auth/CreateUserDTO";
+import { type CreateUserDTO } from "../../dto/user/CreateUserDTO";
 
 const UserFactory = async (data: Partial<CreateUserDTO>) => {
   const hash = await Encrypt.hash(faker.internet.password());

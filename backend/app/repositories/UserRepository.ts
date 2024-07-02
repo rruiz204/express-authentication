@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import Encrypt from "../utils/encrypt";
-import { type CreateUserDTO } from "../dto/auth/CreateUserDTO";
+import { type CreateUserDTO } from "../dto/user/CreateUserDTO";
 import { type FindUserDTO } from "../dto/user/FindUserDTO";
 import { type Table } from "../database/tables";
 
