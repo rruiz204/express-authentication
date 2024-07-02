@@ -1,8 +1,8 @@
 import { describe, test, expect, vi, afterAll } from "vitest";
 import UserFactory from "../../../database/factories/UserFactory";
 import UserService from "../../../services/UserService";
-import GithubService from "../../../services/GithubService";
-import GoogleService from "../../../services/GoogleService";
+import JwtAuthService from "../../../services/authentication/JwtAuthService";
+import SocialAuthService from "../../../services/authentication/SocialAuthService";
 import Tokens from "../../../utils/tokens";
 
 import request from "supertest";
@@ -37,7 +37,7 @@ describe("auth controller", async () => {
   });
 
   test("login - POST - 200", async () => {
-    vi.spyOn(UserService, "login").mockResolvedValue(user);
+    vi.spyOn(JwtAuthService, "login").mockResolvedValue(user);
     const response = await request(app).post("/api/auth/login").send({ email, password });
 
     expect(response.body.data.jwt).toEqual("mock token");
@@ -45,40 +45,26 @@ describe("auth controller", async () => {
   });
 
   test("login - POST - 500", async () => {
-    vi.spyOn(UserService, "login").mockImplementation(() => {throw error});
+    vi.spyOn(JwtAuthService, "login").mockImplementation(() => {throw error});
     const response = await request(app).post("/api/auth/login").send({ email, password });
 
     expect(response.body.error).toEqual(error.message);
     expect(response.status).toEqual(500);
   });
 
-  test("google - POST - 200", async () => {
-    vi.spyOn(GoogleService, "login").mockResolvedValue(user);
-    const response = await request(app).post("/api/auth/google").send({ code: "google code" });
+  test("social - post - 200", async () => {
+    vi.spyOn(SocialAuthService, "login").mockResolvedValue(user);
+    const body = { code: "gitub code", strategy: "github" };
+    const response = await request(app).post("/api/auth/social").send(body);
 
     expect(response.body.data.jwt).toEqual("mock token");
     expect(response.status).toEqual(200);
   });
 
-  test("google - POST - 500", async () => {
-    vi.spyOn(GoogleService, "login").mockImplementation(() => {throw error});
-    const response = await request(app).post("/api/auth/google").send({ code: "google code" });
-
-    expect(response.body.error).toEqual(error.message);
-    expect(response.status).toEqual(500);
-  });
-
-  test("github - POST - 200", async () => {
-    vi.spyOn(GithubService, "login").mockResolvedValue(user);
-    const response = await request(app).post("/api/auth/github").send({ code: "github code" });
-
-    expect(response.body.data.jwt).toEqual("mock token");
-    expect(response.status).toEqual(200);
-  });
-
-  test("github - POST - 500", async () => {
-    vi.spyOn(GithubService, "login").mockImplementation(() => {throw error});
-    const response = await request(app).post("/api/auth/github").send({ code: "github code" });
+  test("social - post - 500", async () => {
+    vi.spyOn(SocialAuthService, "login").mockImplementation(() => {throw error});
+    const body = { code: "google code", strategy: "google" };
+    const response = await request(app).post("/api/auth/social").send(body);
 
     expect(response.body.error).toEqual(error.message);
     expect(response.status).toEqual(500);
