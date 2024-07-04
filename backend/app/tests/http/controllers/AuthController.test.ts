@@ -1,18 +1,19 @@
 import { describe, test, expect, vi, afterAll } from "vitest";
 import UserFactory from "../../../database/factories/UserFactory";
 import UserService from "../../../services/UserService";
-import JwtAuthService from "../../../services/authentication/JwtAuthService";
-import SocialAuthService from "../../../services/authentication/SocialAuthService";
+import LocalAuthService from "../../../services/LocalAuthService";
+import SocialAuthService from "../../../services/SocialAuthService";
 import Tokens from "../../../utils/tokens";
 
 import request from "supertest";
 import app from "../../../server";
 
 describe("auth controller", async () => {
-  const user = { ...await UserFactory({}), github_id: null, google_id: null };
+  const user = await UserFactory({ password: "123456789" });
   const error = new Error("HTTP 500");
 
-  const { username, email, password } = user;
+  const { username, email } = user;
+  const password = user.password!;
 
   vi.spyOn(Tokens, "create").mockResolvedValue("mock token");
 
@@ -37,7 +38,7 @@ describe("auth controller", async () => {
   });
 
   test("login - POST - 200", async () => {
-    vi.spyOn(JwtAuthService, "login").mockResolvedValue(user);
+    vi.spyOn(LocalAuthService, "login").mockResolvedValue(user);
     const response = await request(app).post("/api/auth/login").send({ email, password });
 
     expect(response.body.data.jwt).toEqual("mock token");
@@ -45,7 +46,7 @@ describe("auth controller", async () => {
   });
 
   test("login - POST - 500", async () => {
-    vi.spyOn(JwtAuthService, "login").mockImplementation(() => {throw error});
+    vi.spyOn(LocalAuthService, "login").mockImplementation(() => {throw error});
     const response = await request(app).post("/api/auth/login").send({ email, password });
 
     expect(response.body.error).toEqual(error.message);

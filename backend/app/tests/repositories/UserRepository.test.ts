@@ -6,11 +6,15 @@ import { TestClient } from "../../database/clients";
 
 describe("user repository", async () => {
   const user = await UserFactory({
+    password: "123456789",
     google_id: "google-code",
     github_id: "github-code",
   });
 
-  const { username, email, password, google_id, github_id } = user;
+  const { username, email } = user;
+  const password = user.password!;
+  const google_id = user.google_id!;
+  const github_id = user.github_id!;
   
   afterEach(async () => {
     await RefreshDatabase([UserRepository.table]);
