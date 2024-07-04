@@ -1,6 +1,6 @@
 import UserRepository from "../repositories/UserRepository";
 import { MainClient } from "../database/clients";
-import { type CreateUserDTO } from "../dto/user/CreateUserDTO";
+import { type CreateUserDTO } from "../dto/UserDTO";
 
 async function create(body: CreateUserDTO) {
   let user = await UserRepository.find(body, MainClient);

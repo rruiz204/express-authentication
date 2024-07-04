@@ -1,7 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import Encrypt from "../utils/encrypt";
-import { type CreateUserDTO } from "../dto/user/CreateUserDTO";
-import { type FindUserDTO } from "../dto/user/FindUserDTO";
+import type { CreateUserDTO, FindUserDTO } from "../dto/UserDTO";
 import { type Table } from "../database/tables";
 
 async function create(data: CreateUserDTO, client: PrismaClient) {
