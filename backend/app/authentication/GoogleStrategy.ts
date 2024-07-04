@@ -1,6 +1,8 @@
-import UserRepository from "../../repositories/UserRepository";
-import { MainClient } from "../../database/clients";
-import social from "../../config/social";
+import UserRepository from "../repositories/UserRepository";
+import { MainClient } from "../database/clients";
+import social from "../config/social";
+import { type SocialLoginDTO } from "../dto/AuthenticationDTO";
+import { type ISocialStrategy } from "./IStrategy";
 
 async function request(code: string) {
   const { access_token } = await fetch(`https://oauth2.googleapis.com/token`, {
@@ -21,8 +23,8 @@ async function request(code: string) {
   return await response.json();
 };
 
-async function login(code: string) {
-  const response = await request(code);
+async function login(body: SocialLoginDTO) {
+  const response = await request(body.code);
 
   let user = await UserRepository.find(response, MainClient);
   if (user?.github_id) throw Error("You are registered with another platform, try Github.");
@@ -37,5 +39,5 @@ async function login(code: string) {
   return user;
 };
 
-const GoogleStrategy = { login, request };
+const GoogleStrategy: ISocialStrategy = { login, request };
 export default GoogleStrategy;

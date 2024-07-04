@@ -1,6 +1,6 @@
-import GithubStrategy from "./GithubStrategy";
-import GoogleStrategy from "./GoogleStrategy";
-import { type SocialLoginDTO } from "../../dto/auth/SocialLoginDTO";
+import GoogleStrategy from "../authentication/GoogleStrategy";
+import GithubStrategy from "../authentication/GithubStrategy";
+import { type SocialLoginDTO } from "../dto/AuthenticationDTO";
 
 const strategies = {
   google: GoogleStrategy,
@@ -9,7 +9,7 @@ const strategies = {
 
 async function login(body: SocialLoginDTO) {
   const strategy = strategies[body.strategy];
-  return await strategy.login(body.code);
+  return await strategy.login(body);
 };
 
 const SocialAuthService = { login };

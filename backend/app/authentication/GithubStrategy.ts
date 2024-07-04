@@ -1,6 +1,8 @@
-import UserRepository from "../../repositories/UserRepository";
-import { MainClient } from "../../database/clients";
-import social from "../../config/social";
+import UserRepository from "../repositories/UserRepository";
+import { MainClient } from "../database/clients";
+import social from "../config/social";
+import { type SocialLoginDTO } from "../dto/AuthenticationDTO";
+import { type ISocialStrategy } from "./IStrategy";
 
 async function request(code: string) {
   const client_id = `client_id=${social.github.client_id}`;
@@ -17,8 +19,8 @@ async function request(code: string) {
   return await response.json();
 };
 
-async function login(code: string) {
-  const response = await request(code);
+async function login(body: SocialLoginDTO) {
+  const response = await request(body.code);
 
   let user = await UserRepository.find(response, MainClient);
   if (user?.google_id) throw Error("You are registered with another platform, try Google");
@@ -33,5 +35,5 @@ async function login(code: string) {
   return user;
 };
 
-const GithubStrategy = { login, request };
+const GithubStrategy: ISocialStrategy = { login, request };
 export default GithubStrategy;
