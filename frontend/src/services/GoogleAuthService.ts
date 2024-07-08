@@ -1,13 +1,8 @@
-import { GOOGLE_CLIENT_ID } from "../env";
-import { SocialService } from "./interfaces/SocialService";
 import Options from "../utils/Options";
 import Fetcher from "../utils/Fetcher";
+import { GOOGLE_CLIENT_ID } from "../env";
 import { AuthResponseDTO } from "../dto/AuthenticationDTO";
-
-const login = async (code: string) => {
-  const options = new Options({}).setMethod("POST").setBody({ code }).getOptions();
-  return await Fetcher<AuthResponseDTO>("/auth/google", options);
-};
+import { type ISocialAuthService } from "./interfaces/IAuthService";
 
 const redirect = (): void => {
   const scopes = "scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email";
@@ -19,5 +14,11 @@ const redirect = (): void => {
   window.location.assign(url);
 };
 
-const GoogleService: SocialService = { redirect, login };
-export default GoogleService;
+const login = async (code: string): Promise<AuthResponseDTO> => {
+  const body = { code, strategy: "google" };
+  const options = new Options({}).setMethod("POST").setBody(body).getOptions();
+  return await Fetcher<AuthResponseDTO>("/auth/social", options);
+};
+
+const GoogleAuthService: ISocialAuthService<string> = { redirect, login };
+export default GoogleAuthService;
