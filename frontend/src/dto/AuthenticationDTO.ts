@@ -9,7 +9,7 @@ export interface RegisterBodyDTO {
   password: string;
 }
 
-export interface AuthResponseDTO {
-  data?: { jwt: string, type: string };
-  error?: string;
+export interface AuthDataDTO {
+  jwt: string;
+  type: string;
 }
