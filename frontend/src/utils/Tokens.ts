@@ -1,7 +1,7 @@
-import { AuthResponseDTO } from "../dto/AuthenticationDTO";
+import { AuthDataDTO } from "../dto/AuthenticationDTO";
 
-const save = (response: AuthResponseDTO) => {
-  const token: string = `${response.data?.type} ${response.data?.jwt}`;
+const save = (response: AuthDataDTO) => {
+  const token: string = `${response?.type} ${response?.jwt}`;
   localStorage.setItem("api_token", token);
 };
 
