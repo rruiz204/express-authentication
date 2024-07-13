@@ -1,21 +1,26 @@
 import Options from "../utils/Options";
+import useFetch from "../hooks/useFetch";
 import Fetcher from "../utils/Fetcher";
-import { LoginBodyDTO, RegisterBodyDTO, AuthResponseDTO } from "../dto/AuthenticationDTO";
+import Tokens from "../utils/Tokens";
+import type { AuthDataDTO, LoginBodyDTO, RegisterBodyDTO } from "../dto/AuthenticationDTO";
 import { type ILocalAuthService } from "./interfaces/IAuthService";
-
-const endpoints = Object.freeze({
-  login: "/auth/login",
-  register: "/auth/register",
-});
 
 const options = new Options({}).setMethod("POST");
 
-const login = async (body: LoginBodyDTO): Promise<AuthResponseDTO> => {
-  return await Fetcher<AuthResponseDTO>(endpoints.login, options.setBody(body).getOptions())
+const login = () => {
+  return useFetch<AuthDataDTO, LoginBodyDTO>(async (body) => {
+    return await Fetcher("/auth/login", options.setBody(body).getOptions(), {
+      response: Tokens.save
+    });
+  });
 };
 
-const register = async (body: RegisterBodyDTO): Promise<AuthResponseDTO> => {
-  return await Fetcher<AuthResponseDTO>(endpoints.register, options.setBody(body).getOptions())
+const register = () => {
+  return useFetch<AuthDataDTO, RegisterBodyDTO>(async (body) => {
+    return await Fetcher("/auth/register", options.setBody(body).getOptions(), {
+      response: Tokens.save
+    });
+  });
 };
 
 const LocalAuthService: ILocalAuthService<LoginBodyDTO> = { login, register };

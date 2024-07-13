@@ -1,11 +1,12 @@
-import { AuthResponseDTO, RegisterBodyDTO } from "../../dto/AuthenticationDTO";
+import { IUseFetch } from "../../hooks/useFetch";
+import type { AuthDataDTO, RegisterBodyDTO } from "../../dto/AuthenticationDTO";
 
 interface RegisterInterface {
-  register(body: RegisterBodyDTO): Promise<AuthResponseDTO>;
+  register(): IUseFetch<AuthDataDTO, RegisterBodyDTO>;
 };
 
 interface LoginInterface<Body> {
-  login(body: Body): Promise<AuthResponseDTO>;
+  login(): IUseFetch<AuthDataDTO, Body>;
 };
 
 export interface ILocalAuthService<Body>

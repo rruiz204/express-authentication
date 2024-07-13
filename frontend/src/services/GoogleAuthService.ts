@@ -1,7 +1,9 @@
 import Options from "../utils/Options";
+import useFetch from "../hooks/useFetch";
 import Fetcher from "../utils/Fetcher";
+import Tokens from "../utils/Tokens";
 import { GOOGLE_CLIENT_ID } from "../env";
-import { AuthResponseDTO } from "../dto/AuthenticationDTO";
+import { AuthDataDTO } from "../dto/AuthenticationDTO";
 import { type ISocialAuthService } from "./interfaces/IAuthService";
 
 const redirect = (): void => {
@@ -14,10 +16,14 @@ const redirect = (): void => {
   window.location.assign(url);
 };
 
-const login = async (code: string): Promise<AuthResponseDTO> => {
-  const body = { code, strategy: "google" };
-  const options = new Options({}).setMethod("POST").setBody(body).getOptions();
-  return await Fetcher<AuthResponseDTO>("/auth/social", options);
+const login = () => {
+  return useFetch<AuthDataDTO, string>(async (code) => {
+    const body = { code, strategy: "google" };
+    const options = new Options({}).setMethod("POST").setBody(body).getOptions();
+    return await Fetcher<AuthDataDTO>("/auth/social", options, {
+      response: Tokens.save
+    });
+  });
 };
 
 const GoogleAuthService: ISocialAuthService<string> = { redirect, login };
