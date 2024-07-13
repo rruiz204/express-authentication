@@ -24,7 +24,7 @@ async function request(code: string) {
 };
 
 async function login(body: SocialLoginDTO) {
-  const { username, email, id } = await request(body.code);
+  const { name: username, email, id } = await request(body.code);
 
   let user = await UserRepository.find({ username, email }, MainClient);
   if (user?.github_id) throw Error("You are registered with another platform, try Github.");

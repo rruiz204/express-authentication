@@ -20,7 +20,7 @@ async function request(code: string) {
 };
 
 async function login(body: SocialLoginDTO) {
-  const { username, email, id } = await request(body.code);
+  const { name: username, email, id } = await request(body.code);
 
   let user = await UserRepository.find({ username, email }, MainClient);
   if (user?.google_id) throw Error("You are registered with another platform, try Google");
@@ -29,7 +29,7 @@ async function login(body: SocialLoginDTO) {
     return user = await UserRepository.create({
       username: username,
       email: email,
-      google_id: (id as number).toString(),
+      github_id: (id as number).toString(),
     }, MainClient);
   }
   return user;
