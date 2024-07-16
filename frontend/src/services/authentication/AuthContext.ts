@@ -1,7 +1,9 @@
-import { ref, Ref } from "vue";
-import LocalAuthService from "../services/LocalAuthService";
-import GoogleAuthService from "../services/GoogleAuthService";
-import GithubAuthService from "../services/GithubAuthService";
+import useFetch from "../../hooks/useFetch";
+import { AuthDataDTO } from "../../dto/AuthenticationDTO";
+import Tokens from "../../utils/Tokens";
+import LocalAuthService from "./LocalAuthService";
+import GoogleAuthService from "./GoogleAuthService";
+import GithubAuthService from "./GithubAuthService";
 
 type AuthService = "local" | "google" | "github";
 const services = {
@@ -10,18 +12,13 @@ const services = {
   google: GoogleAuthService
 };
 
-const AuthDirector = () => {
-  const error: Ref<string | undefined> = ref();
-  const loading: Ref<boolean> = ref(false);
+const AuthContext = () => {
+  const { error, data, loading, execute } = useFetch<AuthDataDTO, any>();
 
   async function login(body: any) {
     const service = services[localStorage.getItem("social_provider") as AuthService];
-    const hook = service.login();
-    await hook.fetch(body);
-
-    console.log(hook.data.value);
-    error.value = hook.error.value;
-    loading.value = hook.loading.value
+    await execute(service.login, body);
+    if (data.value) Tokens.save(data.value);
   };
 
   function redirect(service: AuthService) {
@@ -37,4 +34,4 @@ const AuthDirector = () => {
 
   return { login, error, loading, redirect, setService };
 };
-export default AuthDirector;
+export default AuthContext;
