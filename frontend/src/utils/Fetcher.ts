@@ -5,35 +5,18 @@ export interface HttpResponse<DataDTO> {
   error?: string;
 };
 
-interface Interceptors<DataDTO> {
-  request?: (options: RequestInit) => Promise<any> | any;
-  response?: (parameters: DataDTO) => Promise<any> | any;
-};
-
-const Fetcher = async <DataDTO>(
-  endpoint: string,
-  options: RequestInit,
-  interceptor: Interceptors<DataDTO>
-) => {
-  const URL = BASE_URL + endpoint;
+const Fetcher = async <DataDTO> (fetcher: () => Promise<Response>) => {
   try {
-    if (interceptor.request) {
-      const requestInterceptor = interceptor.request(options);
-      if (requestInterceptor instanceof Promise) await requestInterceptor;
-    };
-
-    const response = await fetch(URL, options);
-    const payload = await response.json() as HttpResponse<DataDTO>
-
-    if (interceptor.response && payload.data) {
-      const responseInterceptor = interceptor.response(payload.data);
-      if (responseInterceptor instanceof Promise) await responseInterceptor;
-    };
-
-    return payload;
+    const response = await fetcher();
+    return await response.json() as HttpResponse<DataDTO>;
   } catch (error) {
     return { error: (error as Error).message };
   };
+};
+
+export const FetcherFactory = (endpoint: string, options: RequestInit) => {
+  const URL = BASE_URL + endpoint;
+  return async () => fetch(URL, options);
 };
 
 export default Fetcher;
