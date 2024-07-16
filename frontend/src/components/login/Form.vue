@@ -10,7 +10,7 @@
           input-icon="/svgs/eye.svg" auxiliar-icon="/svgs/eye-slash.svg">
         </Input>
       </div>
-      <Button icon="/svgs/loading.svg" icon-class="animate-spin" text="Login" theme="dark"></Button>
+      <Button icon="/svgs/loading.svg" icon-class="animate-spin" :icon-visibility="loading" text="Login" theme="dark"></Button>
       <p class="text-red-600 text-center mt-4" v-if="error">{{ error }}</p>
       <router-link class="text-gray-400 text-center mt-4 block" to="/register">Don't have an account? Create it here</router-link>
     </form>
@@ -21,11 +21,11 @@
 import Input from '../shared/Input.vue';
 import Button from '../shared/Button.vue';
 import validation from './validation';
-import AuthDirector from '../../authentication/AuthDirector';
+import AuthContext from '../../services/authentication/AuthContext';
 import { useForm } from "vee-validate";
 import { LoginBodyDTO } from '../../dto/AuthenticationDTO';
 
-const { login, error, setService } = AuthDirector();
+const { login, error, setService, loading } = AuthContext();
 
 const { defineField, errors, handleSubmit } = useForm<LoginBodyDTO>({
   validationSchema: validation

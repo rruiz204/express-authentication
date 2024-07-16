@@ -21,9 +21,9 @@ import { watchEffect } from "vue";
 import { useRoute } from "vue-router";
 import Form from '../components/login/Form.vue';
 import Button from '../components/shared/Button.vue';
-import AuthDirector from "../authentication/AuthDirector";
+import AuthContext from "../services/authentication/AuthContext";
 
-const director = AuthDirector();
+const director = AuthContext();
 const route = useRoute();
 
 watchEffect(async () => {

@@ -14,7 +14,7 @@
         </Input>
       </div>
       <Button text="Sign up" theme="dark"></Button>
-      <p class="text-red-600 text-center mt-4" v-if="service.error">{{ service.error }}</p>
+      <p class="text-red-600 text-center mt-4" v-if="error">{{ error }}</p>
     </form>
   </div>
 </template>
@@ -23,11 +23,12 @@
 import Input from "../shared/Input.vue";
 import Button from "../shared/Button.vue";
 import validation from "./validation";
-import LocalAuthService from "../../services/LocalAuthService";
+import useFetch from "../../hooks/useFetch";
+import LocalAuthService from "../../services/authentication/LocalAuthService";
 import { useForm } from "vee-validate";
-import { RegisterBodyDTO } from "../../dto/AuthenticationDTO";
+import { AuthDataDTO, RegisterBodyDTO } from "../../dto/AuthenticationDTO";
 
-const service = LocalAuthService.register();
+const { error, execute } = useFetch<AuthDataDTO, RegisterBodyDTO>()
 
 const { defineField, errors, handleSubmit } = useForm<RegisterBodyDTO>({
   validationSchema: validation
@@ -38,7 +39,7 @@ const [email] = defineField("email");
 const [password] = defineField("password");
 
 const onSubmit = handleSubmit(async (values, { resetForm }) => {
-  await service.fetch(values);
+  await execute(LocalAuthService.register, values);
   resetForm();
 });
 </script>
