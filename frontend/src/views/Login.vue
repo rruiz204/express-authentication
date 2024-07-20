@@ -9,8 +9,8 @@
         <Form></Form>
       </div>
       <div class="font-chivo-regular flex flex-col gap-3">
-        <Button @click="director.redirect('google')" text="Login with Google" theme="light" icon="/svgs/google.svg"></Button>
-        <Button @click="director.redirect('github')" text="Login with Github" theme="light" icon="/svgs/github.svg"></Button>
+        <Button @click="store.redirect('google')" text="Login with Google" theme="light" icon="/svgs/google.svg"></Button>
+        <Button @click="store.redirect('github')" text="Login with Github" theme="light" icon="/svgs/github.svg"></Button>
       </div>
     </div>
   </div>
@@ -21,12 +21,12 @@ import { watchEffect } from "vue";
 import { useRoute } from "vue-router";
 import Form from '../components/login/Form.vue';
 import Button from '../components/shared/Button.vue';
-import AuthContext from "../services/authentication/AuthContext";
+import useLoginStore from "../stores/useLoginStore";
 
-const director = AuthContext();
+const store = useLoginStore();
 const route = useRoute();
 
 watchEffect(async () => {
-  if (route.query.code) await director.login(route.query.code as string);
+  if (route.query.code) await store.login(route.query.code as string);
 });
 </script>
