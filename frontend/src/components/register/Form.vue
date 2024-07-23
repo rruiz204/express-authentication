@@ -13,7 +13,9 @@
           input-icon="/svgs/eye.svg" auxiliar-icon="/svgs/eye-slash.svg">
         </Input>
       </div>
-      <Button text="Sign up" theme="dark"></Button>
+      <Button icon="/svgs/loading.svg" icon-class="animate-spin"
+        :icon-visibility="store.loading" text="Sign up" theme="dark">
+      </Button>
       <p class="text-red-600 text-center mt-4" v-if="store.error">{{ store.error }}</p>
     </form>
   </div>
@@ -21,13 +23,15 @@
 
 <script setup lang="ts">
 import { useForm } from "vee-validate";
+import { useRouter } from "vue-router";
 import validation from "./validation";
+import useRegisterStore from "../../stores/useRegisterStore";
 import Input from "../shared/Input.vue";
 import Button from "../shared/Button.vue";
-import useRegisterStore from "../../stores/useRegisterStore";
 import { RegisterBodyDTO } from "../../dto/AuthenticationDTO";
 
 const store = useRegisterStore();
+const router = useRouter();
 
 const { defineField, errors, handleSubmit } = useForm<RegisterBodyDTO>({
   validationSchema: validation
@@ -38,7 +42,7 @@ const [email] = defineField("email");
 const [password] = defineField("password");
 
 const onSubmit = handleSubmit(async (values, { resetForm }) => {
-  await store.register(values);
+  await store.register(values, router);
   resetForm();
 });
 </script>

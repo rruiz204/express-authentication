@@ -10,7 +10,9 @@
           input-icon="/svgs/eye.svg" auxiliar-icon="/svgs/eye-slash.svg">
         </Input>
       </div>
-      <Button icon="/svgs/loading.svg" icon-class="animate-spin" :icon-visibility="store.loading" text="Login" theme="dark"></Button>
+      <Button icon="/svgs/loading.svg" icon-class="animate-spin"
+        :icon-visibility="store.loading" text="Login" theme="dark">
+      </Button>
       <p class="text-red-600 text-center mt-4" v-if="store.error">{{ store.error }}</p>
       <router-link class="text-gray-400 text-center mt-4 block" to="/register">Don't have an account? Create it here</router-link>
     </form>
@@ -19,13 +21,15 @@
 
 <script setup lang="ts">
 import { useForm } from "vee-validate";
+import { useRouter } from "vue-router";
 import validation from './validation';
+import useLoginStore from '../../stores/useLoginStore';
 import Input from '../shared/Input.vue';
 import Button from '../shared/Button.vue';
-import useLoginStore from '../../stores/useLoginStore';
 import { LoginBodyDTO } from '../../dto/AuthenticationDTO';
 
 const store = useLoginStore();
+const router = useRouter();
 
 const { defineField, errors, handleSubmit } = useForm<LoginBodyDTO>({
   validationSchema: validation
@@ -36,7 +40,7 @@ const [password] = defineField("password");
 
 const onSubmit = handleSubmit(async (values, { resetForm }) => {
   store.setProvider("local");
-  await store.login(values);
+  await store.login(values, router);
   resetForm();
 });
 </script>

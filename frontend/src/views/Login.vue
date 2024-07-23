@@ -18,15 +18,16 @@
 
 <script setup lang="ts">
 import { watchEffect } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
+import useLoginStore from "../stores/useLoginStore";
 import Form from '../components/login/Form.vue';
 import Button from '../components/shared/Button.vue';
-import useLoginStore from "../stores/useLoginStore";
 
 const store = useLoginStore();
+const router = useRouter();
 const route = useRoute();
 
 watchEffect(async () => {
-  if (route.query.code) await store.login(route.query.code as string);
+  if (route.query.code) await store.login(route.query.code as string, router);
 });
 </script>
