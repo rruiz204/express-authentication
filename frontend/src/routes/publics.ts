@@ -6,7 +6,7 @@ interface IPublicRoute {
   path: string;
   component: any;
   name: string;
-}
+};
 
 const publics: IPublicRoute[] = [
   { path: "/register", component: Register, name: "register" },
