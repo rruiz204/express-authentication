@@ -1,8 +1,8 @@
 <template>
   <div @click="$emit('click')">
     <button :class="styles" class="w-full rounded-lg p-3 duration-200 flex justify-center items-center gap-2">
-      <div v-if="props.icon">
-        <img :src="props.icon" width="18" height="18">
+      <div v-if="props.icon && props.iconVisibility">
+        <img :class="props.iconClass" :src="props.icon" width="18" height="18">
       </div>
       <div>
         <p>{{ props.text }}</p>
@@ -20,6 +20,8 @@ const props = defineProps({
   text: { type: String, required: true },
   theme: { type: String, required: true },
   icon: { type: String, required: false },
+  iconClass: { type: String, required: false },
+  iconVisibility: { type: Boolean, required: false, default: true }
 });
 
 const background: string = (props.theme == "light") ? "bg-gray-100" : "bg-black";
