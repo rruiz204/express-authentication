@@ -2,7 +2,7 @@
   <div @click="clicker" class="font-poppins-regular">
     <button :class="`${props.width} ${colors}`" class="p-2 rounded-md flex justify-center items-center gap-2">
       <div v-if="props.icon && props.visibility">
-        <img :src="props.icon" width="18" height="18">
+        <img :class="props.class" :src="props.icon" width="18" height="18">
       </div>
       <div>
         <p>{{ props.text }}</p>
